@@ -22,13 +22,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         TextView target = findViewById(R.id.Greetings);
-        target.setText(
-                "We Are: \n" +
-                "Kyle Hellstrom - 22343261\n" +
-                "Jayeesh Katyal - 22083421\n" +
-                "Luke Minogue - 22347526\n" +
-                "Sean Mulcahy - 22354166"
-        );
+        target.setText("We Are: \nKyle Hellstrom - 22343261\nJayeesh Katyal - 22083421\nLuke Minogue - 22347526\nSean Mulcahy - 22354166");
 
 
     }
