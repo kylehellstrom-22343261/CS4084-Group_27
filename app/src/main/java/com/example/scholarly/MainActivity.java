@@ -1,6 +1,8 @@
 package com.example.scholarly;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        TextView target = findViewById(R.id.Greetings);
+        target.setText(
+                "We Are: \n" +
+                "Kyle Hellstrom - 22343261\n" +
+                ""
+        );
+
+
     }
 }
