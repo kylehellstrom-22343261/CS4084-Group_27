@@ -1,7 +1,6 @@
 package com.example.scholarly;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         target.setText(
                 "We Are: \n" +
                 "Kyle Hellstrom - 22343261\n" +
+                "Jayeesh Katyal - 22083421\n" +
                 ""
         );
 
