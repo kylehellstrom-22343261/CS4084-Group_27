@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 "We Are: \n" +
                 "Kyle Hellstrom - 22343261\n" +
                 "Jayeesh Katyal - 22083421\n" +
+                "Luke Minogue - 22347526\n" +
                 ""
         );
 
