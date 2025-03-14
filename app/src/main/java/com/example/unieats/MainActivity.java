@@ -1,4 +1,4 @@
-package com.example.scholarly;
+package com.example.unieats;
 
 import android.os.Bundle;
 import android.widget.TextView;
