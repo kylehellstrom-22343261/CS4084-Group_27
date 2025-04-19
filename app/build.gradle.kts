@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.scholarly"
+    namespace = "com.example.unieats"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.scholarly"
+        applicationId = "com.example.unieats"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
