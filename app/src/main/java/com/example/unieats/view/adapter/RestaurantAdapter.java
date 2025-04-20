@@ -17,11 +17,15 @@ import java.util.List;
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
     private final List<Restaurant> restaurantList;
+    private final OnRestaurantClickListener listener;
 
-    public RestaurantAdapter(List<Restaurant> restaurantList) {
-        this.restaurantList = restaurantList;
+    public RestaurantAdapter(List<Restaurant> restaurants, OnRestaurantClickListener listener) {
+        this.restaurantList = restaurants;
+        this.listener = listener;
     }
-
+    public interface OnRestaurantClickListener {
+        void onRestaurantClick(Restaurant restaurant);
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, description, rating;
         ImageView image;
@@ -45,11 +49,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantAdapter.ViewHolder holder, int position) {
-        Restaurant r = restaurantList.get(position);
-        holder.name.setText(r.getBusinessName());
-        holder.description.setText(r.getDescription());
-        holder.rating.setText(String.format("%.1f ⭐", r.getRating()));
-        holder.image.setImageResource(r.getImageResId());
+        Restaurant restaurant = restaurantList.get(position);
+        holder.name.setText(restaurant.getBusinessName());
+        holder.description.setText(restaurant.getDescription());
+        holder.rating.setText(String.format("%.1f ⭐", restaurant.getRating()));
+        holder.image.setImageResource(restaurant.getImage());
+
+        // listener to change fragment to menu
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null) {
+                listener.onRestaurantClick(restaurant);
+            }
+        });
     }
 
     @Override

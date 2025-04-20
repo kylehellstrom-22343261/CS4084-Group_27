@@ -1,6 +1,8 @@
 package com.example.unieats.view.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,16 +19,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = getWindow().getDecorView();
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//            getWindow().setStatusBarColor(Color.WHITE); // Optional: Set status bar background to white
+        }
+//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragment_container), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-//        TextView target = findViewById(R.id.Greetings);
-//        target.setText("We Are: \nKyle Hellstrom - 22343261\nJayeesh Katyal - 22083421\nLuke Minogue - 22347526\nSean Mulcahy - 22354166");
-//
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new RestaurantFragment())
