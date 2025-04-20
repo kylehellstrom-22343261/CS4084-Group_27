@@ -25,9 +25,20 @@ public class RestaurantFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RestaurantController controller = new RestaurantController();
-        RestaurantAdapter adapter = new RestaurantAdapter(controller.getRestaurants());
+        RestaurantAdapter adapter = new RestaurantAdapter(controller.getRestaurants(), restaurant -> {
+            // On restaurant click, open MenuFragment
+            Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, menuFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         recyclerView.setAdapter(adapter);
 
         return view;
     }
+
 }
