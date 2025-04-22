@@ -14,7 +14,10 @@ import com.example.unieats.model.Restaurant;
 
 import java.util.List;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_RESTAURANT = 1;
 
     private final List<Restaurant> restaurantList;
     private final OnRestaurantClickListener listener;
@@ -23,14 +26,54 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         this.restaurantList = restaurants;
         this.listener = listener;
     }
-    public interface OnRestaurantClickListener {
-        void onRestaurantClick(Restaurant restaurant);
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HEADER : TYPE_RESTAURANT;
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    @Override
+    public int getItemCount() {
+        return restaurantList.size() + 1; // +1 for header
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_restaurant_header, parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_restaurant, parent, false);
+            return new RestaurantViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof RestaurantViewHolder) {
+            Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
+            RestaurantViewHolder vh = (RestaurantViewHolder) holder;
+
+            vh.name.setText(restaurant.getBusinessName());
+            vh.description.setText(restaurant.getDescription());
+            vh.rating.setText(String.format("%.1f ⭐", restaurant.getRating()));
+            vh.image.setImageResource(restaurant.getImage());
+
+            vh.itemView.setOnClickListener(v -> {
+                if (listener != null) listener.onRestaurantClick(restaurant);
+            });
+        }
+    }
+
+    // --- ViewHolders ---
+    static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         TextView name, description, rating;
         ImageView image;
 
-        public ViewHolder(View view) {
+        public RestaurantViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.restaurant_name);
             description = view.findViewById(R.id.restaurant_description);
@@ -39,32 +82,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         }
     }
 
-    @NonNull
-    @Override
-    public RestaurantAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_restaurant, parent, false);
-        return new ViewHolder(view);
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public HeaderViewHolder(View view) {
+            super(view);
+            // Can add logic here if you want the header to be dynamic
+        }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RestaurantAdapter.ViewHolder holder, int position) {
-        Restaurant restaurant = restaurantList.get(position);
-        holder.name.setText(restaurant.getBusinessName());
-        holder.description.setText(restaurant.getDescription());
-        holder.rating.setText(String.format("%.1f ⭐", restaurant.getRating()));
-        holder.image.setImageResource(restaurant.getImage());
-
-        // listener to change fragment to menu
-        holder.itemView.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onRestaurantClick(restaurant);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return restaurantList.size();
+    public interface OnRestaurantClickListener {
+        void onRestaurantClick(Restaurant restaurant);
     }
 }

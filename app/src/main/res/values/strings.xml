@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UniEats</string>
+    <string name="unieats_logo">UniEats Logo</string>
+    <string name="restaurant_header">Restaurants Near You</string>
 </resources>
