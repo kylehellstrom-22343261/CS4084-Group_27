@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "734922419419",
+    "firebase_url": "https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "unieats-57c3e",
+    "storage_bucket": "unieats-57c3e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734922419419:android:65b1b8af88062aba6cf0fe",
+        "android_client_info": {
+          "package_name": "com.example.unieats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP0zdUJUG2WA0FVzOA7Wgl4u1j5S_Y4Zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
