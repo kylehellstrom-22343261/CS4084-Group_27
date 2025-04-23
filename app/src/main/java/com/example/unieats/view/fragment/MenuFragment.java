@@ -5,10 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.MenuController;
+import com.example.unieats.controller.RestaurantController;
+import com.example.unieats.model.Menu;
+import com.example.unieats.view.adapter.MenuAdapter;
+import com.example.unieats.view.adapter.RestaurantAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuFragment extends Fragment {
 
@@ -39,6 +50,15 @@ public class MenuFragment extends Fragment {
         TextView header = view.findViewById(R.id.menu_header);
         header.setText("Menu for " + businessName);
 
+        RecyclerView recyclerView = view.findViewById(R.id.menu_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MenuController controller = new MenuController();
+        MenuAdapter adapter = new MenuAdapter(controller.getMenuItems());
+        recyclerView.setAdapter(adapter);
+
         return view;
     }
+
+
 }
