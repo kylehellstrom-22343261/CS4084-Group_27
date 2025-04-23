@@ -13,5 +13,10 @@
         android:textStyle="bold" />
 
     <!-- Add RecyclerView for restaurant items -->
-
+    <!-- Add your MapView here -->
+    <androidx.fragment.app.FragmentContainerView
+    android:id="@+id/map_fragment_container"
+    android:name="com.example.unieats.view.fragment.MapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 </LinearLayout>
