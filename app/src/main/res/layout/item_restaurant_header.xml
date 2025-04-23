@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:text="@string/restaurant_header"
     android:textSize="24sp"
-    android:textStyle="bold"
-    android:textColor="#002600"
+    android:textColor="@color/black"
+    android:paddingTop="5dp"
+    android:fontFamily="@font/bauhaus_font"
     android:layout_marginTop="16dp"
     android:paddingBottom="8dp"/>

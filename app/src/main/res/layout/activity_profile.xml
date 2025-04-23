@@ -12,16 +12,51 @@
         android:background="#FFFFFF"
         android:elevation="4dp">
 
-        <!-- Logo -->
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/unieats_logo"
-            android:src="@drawable/unieats_logo"
-            android:padding="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+
+            <!-- Profile -->
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@drawable/circular_button_bg"
+                android:contentDescription="Back"
+                android:elevation="1dp"
+                android:fontFamily="@font/fa_solid"
+                android:gravity="center"
+                android:padding="0dp"
+                android:stateListAnimator="@null"
+                android:text="\uf060"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <!-- Logo -->
+<!--            <ImageView-->
+<!--                android:layout_width="160dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:contentDescription="@string/unieats_logo"-->
+<!--                android:padding="16dp"-->
+<!--                android:src="@drawable/unieats_logo" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Settings"
+                android:textColor="@color/black"
+                android:paddingTop="5dp"
+                android:gravity="center"
+                android:textSize="24sp"/>
+        </LinearLayout>
     </FrameLayout>
 
+    <!-- Main Container-->
 
 </LinearLayout>

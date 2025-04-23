@@ -3,7 +3,8 @@ package com.example.unieats.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         // Activity time bar colour
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Find the profile button by ID
-        ImageButton profileButton = findViewById(R.id.profileButton);
+        Button profileButton = findViewById(R.id.profileButton);
 
         // Set click listener for the profile button
         profileButton.setOnClickListener(new View.OnClickListener() {
