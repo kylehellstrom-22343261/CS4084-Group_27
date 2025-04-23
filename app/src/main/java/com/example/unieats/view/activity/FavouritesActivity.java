@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unieats.R;
 
-public class ProfileActivity extends AppCompatActivity {
+public class FavouritesActivity extends AppCompatActivity {
 
 
     @Override
@@ -17,17 +17,16 @@ public class ProfileActivity extends AppCompatActivity {
         // Activity time bar colour
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_favourites);
 
 
-        // Find the profile button by ID
+        // Find the back button by ID
         Button backButton = findViewById(R.id.backButton);
-
-        // Set click listener for the profile button
+        // Set click listener for the back button
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // End the ProfileActivity
+                // End the FavouritesActivity
                 finish();
             }
         });
