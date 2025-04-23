@@ -12,7 +12,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Add RecyclerView for restaurant items -->
+    <!-- RecyclerView for restaurant items -->
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
