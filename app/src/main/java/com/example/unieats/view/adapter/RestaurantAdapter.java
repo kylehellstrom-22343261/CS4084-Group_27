@@ -53,7 +53,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         holder.name.setText(restaurant.getBusinessName());
         holder.description.setText(restaurant.getDescription());
         holder.rating.setText(String.format("%.1f ⭐", restaurant.getRating()));
-        holder.image.setImageResource(restaurant.getImage());
+        holder.image.setImageResource(holder.itemView.getContext().getResources()
+                .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
         // listener to change fragment to menu
         holder.itemView.setOnClickListener(view -> {
