@@ -1,45 +1,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
-    <!-- Header: Logo & Profile -->
-    <LinearLayout
+
+    <!-- Header with shadow -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="16dp">
+        android:background="#FFFFFF"
+        android:elevation="3dp">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/unieats_logo"
-            android:contentDescription="UniEats Logo"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:layout_width="32dp"
+        <!-- Make Vertical -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/default_pfp"
-            android:scaleType="centerCrop" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D3D3D3"
-        android:layout_marginBottom="16dp"
-        />
+            <!-- Logo and Dropdown -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Logo -->
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/unieats_logo"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/unieats_logo" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Favourites -->
+                <Button
+                    android:id="@+id/favouritesButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circular_button_bg"
+                    android:contentDescription="Favourites"
+                    android:elevation="3dp"
+                    android:fontFamily="@font/fa_solid"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="\uf005"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <!-- Settings -->
+                <Button
+                    android:id="@+id/settingsButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circular_button_bg"
+                    android:contentDescription="Settings"
+                    android:elevation="3dp"
+                    android:fontFamily="@font/fa_solid"
+                    android:gravity="center"
+                    android:padding="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="\uf013"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <!-- Search Bar -->
+            <EditText
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_bar_bg"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:hint=" Search Restaurants &amp; Items. . ."
+                android:paddingBottom="5dp"
+                android:paddingTop="7dp"
+                android:paddingHorizontal="6dp"/>
+
+        </LinearLayout>
+    </FrameLayout>
 
     <!-- Fragment Container -->
     <FrameLayout
@@ -47,7 +102,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingHorizontal="16dp"
-        />
-
+        android:paddingHorizontal="16dp" />
 </LinearLayout>
