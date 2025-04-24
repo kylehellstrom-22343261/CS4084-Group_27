@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.MenuController;
-import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.MenuAdapter;
 import com.example.unieats.view.adapter.RestaurantAdapter;

@@ -4,9 +4,16 @@ public class Restaurant {
     private final String businessName;
     private final String description;
     private final double rating;
-    private final int image;
+    private final String image;
 
-    public Restaurant(String businessName, String description, double rating, int image) {
+    public Restaurant() {
+        this.businessName = "";
+        this.description = "";
+        this.rating = 0;
+        this.image = "";
+    }
+
+    public Restaurant(String businessName, String description, double rating, String image) {
         this.businessName = businessName;
         this.description = description;
         this.rating = rating;
@@ -16,5 +23,5 @@ public class Restaurant {
     public String getBusinessName() { return businessName; }
     public String getDescription() { return description; }
     public double getRating() { return rating; }
-    public int getImage() { return image; }
+    public String getImage() { return image; }
 }

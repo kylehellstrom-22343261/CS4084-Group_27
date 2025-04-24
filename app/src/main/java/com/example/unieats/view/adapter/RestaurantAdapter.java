@@ -61,7 +61,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
             vh.rating.setText(String.format("%.1f ⭐", restaurant.getRating()));
-            vh.image.setImageResource(restaurant.getImage());
+            vh.image.setImageResource(holder.itemView.getContext().getResources()
+                    .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
             vh.itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onRestaurantClick(restaurant);
