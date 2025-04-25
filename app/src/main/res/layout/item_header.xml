@@ -4,10 +4,11 @@
     android:id="@+id/header_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/restaurant_header"
+    android:text="Sample Header Text"
     android:textSize="24sp"
     android:textColor="@color/black"
     android:textStyle="bold"
     android:paddingTop="5dp"
     android:layout_marginTop="16dp"
-    android:paddingBottom="8dp"/>
+    android:paddingBottom="8dp"
+    android:paddingStart="8dp"/>
