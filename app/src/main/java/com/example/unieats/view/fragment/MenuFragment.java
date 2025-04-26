@@ -56,6 +56,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
 
         updateBasketButton();
 
+        basketButton.setOnClickListener(v -> {
+            MapFragment mapFragment = new MapFragment();
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, mapFragment) // TODO: make confrirm order fragment
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         return view;
     }
 

@@ -43,6 +43,7 @@ public class MapFragment extends Fragment {
 
         mapView = view.findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setMultiTouchControls(true);
 
         // Initialize location overlay
         myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(requireContext()), mapView);
