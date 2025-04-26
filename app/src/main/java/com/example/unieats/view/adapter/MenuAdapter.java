@@ -36,7 +36,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
         holder.price.setText(String.format("$%.2f", item.getPrice()));
-        holder.image.setImageResource(item.getImage());
+        holder.image.setImageResource(holder.itemView.getContext().getResources()
+                .getIdentifier(item.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
     }
 
     @Override
