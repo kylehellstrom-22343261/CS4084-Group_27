@@ -57,5 +57,64 @@
                 android:textColor="@color/green"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
+
+        <!-- Basket Buttons -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            >
+
+            <!-- Remove -->
+            <Button
+                android:id="@+id/menu_item_remove_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="12dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/remove_button_bg"
+                android:contentDescription="Remove"
+                android:elevation="3dp"
+                android:fontFamily="@font/fa_solid"
+                android:gravity="center"
+                android:padding="0dp"
+                android:stateListAnimator="@null"
+                android:text="\uf014"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:visibility="gone"
+                />
+
+            <!-- Item Count -->
+            <TextView
+                android:id="@+id/menu_item_count"
+                android:text="1"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                />
+
+            <!-- Add -->
+            <Button
+                android:id="@+id/menu_item_add_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="12dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/add_button_bg"
+                android:contentDescription="Add"
+                android:elevation="3dp"
+                android:fontFamily="@font/fa_solid"
+                android:gravity="center"
+                android:padding="0dp"
+                android:stateListAnimator="@null"
+                android:text="\uf067"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

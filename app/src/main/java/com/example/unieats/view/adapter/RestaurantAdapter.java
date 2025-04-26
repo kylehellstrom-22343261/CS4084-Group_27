@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unieats.R;
 import com.example.unieats.model.Restaurant;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -24,14 +25,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final List<Restaurant> restaurantList;
     private final OnRestaurantClickListener listener;
-//    private final Context context;
 
     public RestaurantAdapter(
-//            Context context,
-            List<Restaurant> restaurants, OnRestaurantClickListener listener) {
+            List<Restaurant> restaurants,
+            OnRestaurantClickListener listener)
+    {
+        restaurants.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
         this.restaurantList = restaurants;
+
         this.listener = listener;
-//        this.context = context;
     }
 
     @Override
@@ -70,11 +72,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
 
-            vh.ratingStar.setText("\uf005");
-
             double rating = restaurant.getRating();
             int colorId;
-            if (rating >= 4.6) {
+            if (rating >= 4.5) {
                 colorId = R.color.green;
             } else if (rating >= 3.0) {
                 colorId = R.color.orange;
@@ -96,6 +96,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (listener != null) listener.onRestaurantClick(restaurant);
             });
         }
+    }
+
+    public interface OnRestaurantClickListener {
+        void onRestaurantClick(Restaurant restaurant);
     }
 
     /* ViewHolders */
@@ -126,10 +130,5 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             rating = view.findViewById(R.id.restaurant_rating);
             image = view.findViewById(R.id.restaurant_image);
         }
-    }
-
-
-    public interface OnRestaurantClickListener {
-        void onRestaurantClick(Restaurant restaurant);
     }
 }

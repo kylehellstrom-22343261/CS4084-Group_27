@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <!-- RecyclerView for restaurant items -->
+    <!-- Your RecyclerView or menu content -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:overScrollMode="ifContentScrolls"
-        />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <!-- Floating Basket Button -->
+    <Button
+        android:id="@+id/basketButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/basket_button_bg"
+        android:foreground="@drawable/basket_button_fg"
+        android:visibility="visible"
+        android:text="\uf291 0"
+        android:fontFamily="@font/fa_solid"
+        android:textColor="@color/green"
+        android:padding="12dp"
+        android:textSize="16sp" />
+
+</RelativeLayout>
