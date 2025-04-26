@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.unieats.R;
-import com.example.unieats.controller.RestaurantController;
+import com.example.unieats.model.Restaurant;
+import com.example.unieats.model.RestaurantData;
 import com.example.unieats.view.adapter.RestaurantAdapter;
+
+import java.util.List;
 
 public class RestaurantFragment extends Fragment {
 
@@ -24,19 +27,24 @@ public class RestaurantFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.restaurant_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        RestaurantController controller = new RestaurantController();
-        RestaurantAdapter adapter = new RestaurantAdapter(controller.getRestaurants(), restaurant -> {
-            // On restaurant click, open MenuFragment
-            Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
+        RestaurantData restaurantData = new RestaurantData();
+        restaurantData.getRestaurants(new RestaurantData.RestaurantCallback() {
+            @Override
+            public void onRestaurantsLoaded(List<Restaurant> restaurants) {
+                RestaurantAdapter adapter = new RestaurantAdapter(restaurants, restaurant -> {
+                    // On restaurant click, open MenuFragment
+                    Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
 
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, menuFragment)
-                    .addToBackStack(null)
-                    .commit();
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, menuFragment)
+                            .addToBackStack(null)
+                            .commit();
+                });
+
+                recyclerView.setAdapter(adapter);
+            }
         });
-
-        recyclerView.setAdapter(adapter);
 
         return view;
     }

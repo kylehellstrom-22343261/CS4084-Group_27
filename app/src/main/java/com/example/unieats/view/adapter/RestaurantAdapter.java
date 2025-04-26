@@ -69,6 +69,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
+
             vh.ratingStar.setText("\uf005");
 
             double rating = restaurant.getRating();
@@ -86,8 +87,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             vh.ratingStar.setTextColor(color);
             vh.rating.setTextColor(color);
             vh.rating.setText(String.format("%.1f", restaurant.getRating()));
+            
+            vh.image.setImageResource(holder.itemView.getContext().getResources()
+                    .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
-            vh.image.setImageResource(restaurant.getImage());
 
             vh.itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onRestaurantClick(restaurant);

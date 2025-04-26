@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.MenuController;
-import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.model.Menu;
+import com.example.unieats.model.RestaurantData;
 import com.example.unieats.view.adapter.MenuAdapter;
 import com.example.unieats.view.adapter.RestaurantAdapter;
 
@@ -50,12 +50,19 @@ public class MenuFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.menu_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MenuController controller = new MenuController();
-        MenuAdapter adapter = new MenuAdapter(controller.getMenuItems());
-        recyclerView.setAdapter(adapter);
+        MenuController menuController = new MenuController();
+        RestaurantData restaurantData = new RestaurantData();
+        restaurantData.getMenu(businessName, new RestaurantData.MenuCallback() {
+            @Override
+            public void onMenuLoaded(List<Menu.MenuItem> menu) {
+                MenuAdapter adapter = new MenuAdapter(menu);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+
+//        MenuAdapter adapter = new MenuAdapter(menuController.getMenuBad(businessName));
+//        recyclerView.setAdapter(adapter);
 
         return view;
     }
-
-
 }
