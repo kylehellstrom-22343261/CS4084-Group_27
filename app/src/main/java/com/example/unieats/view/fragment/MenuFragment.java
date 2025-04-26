@@ -47,9 +47,6 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        TextView header = view.findViewById(R.id.menu_header);
-        header.setText("Menu for " + businessName);
-
         RecyclerView recyclerView = view.findViewById(R.id.menu_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
