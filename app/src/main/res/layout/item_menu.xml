@@ -67,7 +67,7 @@
 
             <!-- Remove -->
             <Button
-                android:id="@+id/removeButton"
+                android:id="@+id/menu_item_remove_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="12dp"
@@ -82,13 +82,14 @@
                 android:text="\uf014"
                 android:textColor="@color/red"
                 android:textSize="16sp"
+                android:visibility="gone"
                 />
 
             <!-- Item Count -->
             <TextView
-                android:id="@+id/itemCount"
+                android:id="@+id/menu_item_count"
                 android:text="1"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
 
             <!-- Add -->
             <Button
-                android:id="@+id/addButton"
+                android:id="@+id/menu_item_add_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="12dp"

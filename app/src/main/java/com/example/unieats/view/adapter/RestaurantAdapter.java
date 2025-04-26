@@ -98,6 +98,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public interface OnRestaurantClickListener {
+        void onRestaurantClick(Restaurant restaurant);
+    }
+
     /* ViewHolders */
 
     /**
@@ -126,10 +130,5 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             rating = view.findViewById(R.id.restaurant_rating);
             image = view.findViewById(R.id.restaurant_image);
         }
-    }
-
-
-    public interface OnRestaurantClickListener {
-        void onRestaurantClick(Restaurant restaurant);
     }
 }
