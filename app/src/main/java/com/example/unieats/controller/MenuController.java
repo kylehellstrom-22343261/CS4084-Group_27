@@ -1,21 +1,44 @@
 package com.example.unieats.controller;
 import com.example.unieats.model.Menu;
 
-import com.example.unieats.R;
-import com.example.unieats.model.Restaurant;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuController {
-//    public List<Menu.MenuItem> getMenuItems() {
-//        List<Menu.MenuItem> list = new ArrayList<>();
-//        list.add(new Menu.MenuItem("Classic Burger", "Juicy beef patty with lettuce & tomato", 8.99, R.drawable.scholars_club));
-//        list.add(new Menu.MenuItem("Crispy Fries", "Golden and crunchy french fries", 3.49, R.drawable.scholars_club));
-//        list.add(new Menu.MenuItem("Chicken Wrap", "Grilled chicken with fresh veggies", 7.99, R.drawable.scholars_club));
-//        list.add(new Menu.MenuItem("Veggie Pizza", "Loaded with veggies and cheese", 9.99, R.drawable.scholars_club));
-//        list.add(new Menu.MenuItem("Iced Lemon Tea", "Refreshing citrus drink", 2.99, R.drawable.scholars_club));
-//        return list;
-//    }
+    public interface MenuCallback {
+        void onMenuLoaded(List<Menu.MenuItem> menu);
+    }
+
+    public static void getMenu(String restaurant, MenuCallback callback) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+
+        DatabaseReference dbRef = db.getReference("Item/data");
+
+        dbRef.orderByChild("businessName").equalTo(restaurant).get().addOnCompleteListener(task -> {
+            List<Menu.MenuItem> result = new ArrayList<>();
+
+            if(task.isSuccessful()) {
+                GenericTypeIndicator<HashMap<String, Menu.MenuItem>> typeIndicator = new GenericTypeIndicator<>() {};
+
+                HashMap<String, Menu.MenuItem> firebaseResult = task.getResult().getValue(typeIndicator);
+
+                if(firebaseResult != null) {
+                    for(Map.Entry<String, Menu.MenuItem> e : firebaseResult.entrySet()) {
+                        result.add(e.getValue());
+                    }
+                }
+
+                callback.onMenuLoaded(result);
+            } else {
+                System.out.println("Error getting restaurants: " + task.getException());
+            }
+        });
+    }
 
 }
