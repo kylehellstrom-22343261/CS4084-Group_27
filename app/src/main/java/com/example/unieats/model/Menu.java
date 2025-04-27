@@ -26,6 +26,7 @@ public class Menu {
             this.image = image;
         }
 
+        public String getBusinessName() { return businessName; }
         public String getName() { return name; }
         public String getDescription() { return description; }
         public double getPrice() { return price; }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,12 +16,14 @@ import com.example.unieats.R;
 import com.example.unieats.controller.BasketController;
 import com.example.unieats.controller.MenuController;
 import com.example.unieats.view.adapter.MenuAdapter;
+import com.google.android.material.appbar.AppBarLayout;
 
 public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateListener {
 
     private static final String ARG_BUSINESS_NAME = "business_name";
     private String businessName;
     private Button basketButton;
+    private ImageView menuHeaderImage;
 
 
     public static MenuFragment newInstance(String businessName) {
@@ -47,15 +50,31 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
         RecyclerView recyclerView = view.findViewById(R.id.menu_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        AppBarLayout appBarLayout = view.findViewById(R.id.fragment_appbar);
+        menuHeaderImage = view.findViewById(R.id.menu_header_image);
+        menuHeaderImage.setImageResource(R.drawable.stables_club); // TODO: get from db
+
+        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
+            int totalScrollRange = appBarLayout1.getTotalScrollRange();
+
+            float scrollFactor = (float) -verticalOffset / totalScrollRange;
+            float alpha = 1f - scrollFactor;
+            alpha = Math.max(0.5f, Math.min(1f, alpha)); // clamp 0..1
+
+            menuHeaderImage.setAlpha(alpha);
+        });
+
+
         basketButton = view.findViewById(R.id.basketButton);
 
         MenuController.getMenu(businessName, menu -> {
-            MenuAdapter adapter = new MenuAdapter(menu, this);
+            MenuAdapter adapter = new MenuAdapter(menu, this,getContext());
             recyclerView.setAdapter(adapter);
         });
 
         updateBasketButton();
 
+        // Change fragment to confirm order
         basketButton.setOnClickListener(v -> {
             MapFragment mapFragment = new MapFragment();
             requireActivity().getSupportFragmentManager()
