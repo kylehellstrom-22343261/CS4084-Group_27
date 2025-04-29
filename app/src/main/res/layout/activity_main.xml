@@ -50,7 +50,7 @@
                     android:background="@drawable/reg_button_bg"
                     android:contentDescription="Favourites"
                     android:elevation="3dp"
-                    android:fontFamily="@font/fa_solid"
+                    android:fontFamily="@font/fa_font_solid"
                     android:gravity="center"
                     android:padding="0dp"
                     android:stateListAnimator="@null"
