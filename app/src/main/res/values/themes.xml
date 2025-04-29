@@ -3,11 +3,10 @@
     <style name="Base.Theme.UniEats" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/white</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="android:windowBackground">@color/black</item>
-        <item name="android:navigationBarColor">@color/white</item>
-<!--        <item name="android:fontFamily">@font/bauhaus_font</item>-->
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/white</item>
     </style>
 
     <style name="Theme.UniEats" parent="Base.Theme.UniEats" />
