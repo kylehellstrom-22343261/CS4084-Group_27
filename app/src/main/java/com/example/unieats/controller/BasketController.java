@@ -1,35 +1,17 @@
 package com.example.unieats.controller;
 
-import android.util.Log;
-
 import com.example.unieats.model.Menu.MenuItem;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 public class BasketController {
-
-    /**
-     * Only 1 basket can exist
-     */
     private static BasketController instance;
 
-    /**
-     * Basket: Map each MenuItem to the quantity
-     */
-    private Map<MenuItem, Integer> basketItems;
+    private List<MenuItem> allMenuItems;
 
-    /**
-     * Constructor
-     */
-    private BasketController() {
-        basketItems = new HashMap<>();
-    }
+    private BasketController() { }
 
-    /**
-     * Get instance of BasketController
-     * @return instance
-     */
     public static BasketController getInstance() {
         if (instance == null) {
             instance = new BasketController();
@@ -37,57 +19,38 @@ public class BasketController {
         return instance;
     }
 
-    /**
-     * Add item to basket
-     */
-    public void addItem(MenuItem item) {
-        int currentQuantity = basketItems.containsKey(item) ? basketItems.get(item) : 0;
-        basketItems.put(item, currentQuantity + 1);
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.allMenuItems = menuItems;
     }
 
-    /**
-     * Remove 1 item from basket
-     */
+    public void addItem(MenuItem item) {
+        item.setCount(item.getCount() + 1);
+    }
+
     public void removeItem(MenuItem item) {
-        if (basketItems.containsKey(item)) {
-            int quantity = basketItems.get(item);
-            if (quantity > 1) {
-                basketItems.put(item, quantity - 1);
-            } else {
-                basketItems.remove(item);
-            }
+        if (item.getCount() > 0) {
+            item.setCount(item.getCount() - 1);
         }
     }
 
-    /**
-     * Delete all of 1 item from basket
-     */
-    public void deleteItem(MenuItem item) {
-        basketItems.remove(item);
-    }
-
-    /**
-     * Get current basket items
-     */
-    public Map<MenuItem, Integer> getBasketItems() {
-        return basketItems;
-    }
-
-    /**
-     * Clear basket
-     */
-    public void clearBasket() {
-        basketItems.clear();
-    }
-
-    /**
-     * Total number of items in basket
-     */
     public int getTotalItemCount() {
+        if (allMenuItems == null) return 0;
         int total = 0;
-        for (int quantity : basketItems.values()) {
-            total += quantity;
+        for (MenuItem item : allMenuItems) {
+            total += item.getCount();
         }
         return total;
+    }
+
+    public List<MenuItem> getBasketItems() {
+        return allMenuItems;
+    }
+
+    public void clearBasket() {
+        if (allMenuItems != null) {
+            for (MenuItem item : allMenuItems) {
+                item.setCount(0);
+            }
+        }
     }
 }

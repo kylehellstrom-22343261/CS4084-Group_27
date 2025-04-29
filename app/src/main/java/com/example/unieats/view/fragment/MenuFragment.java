@@ -5,23 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
+import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.unieats.R;
 import com.example.unieats.controller.BasketController;
 import com.example.unieats.controller.MenuController;
+import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.MenuAdapter;
+import com.google.android.material.appbar.AppBarLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateListener {
 
     private static final String ARG_BUSINESS_NAME = "business_name";
     private String businessName;
     private Button basketButton;
-
+    private ImageView menuHeaderImage;
+    private MenuAdapter menuAdapter;
 
     public static MenuFragment newInstance(String businessName) {
         MenuFragment fragment = new MenuFragment();
@@ -47,25 +52,58 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
         RecyclerView recyclerView = view.findViewById(R.id.menu_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        basketButton = view.findViewById(R.id.basketButton);
+        AppBarLayout appBarLayout = view.findViewById(R.id.fragment_appbar);
+        menuHeaderImage = view.findViewById(R.id.menu_header_image);
+        menuHeaderImage.setImageResource(R.drawable.stables_club); // TODO: dynamic image
 
-        MenuController.getMenu(businessName, menu -> {
-            MenuAdapter adapter = new MenuAdapter(menu, this);
-            recyclerView.setAdapter(adapter);
+        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
+            int totalScrollRange = appBarLayout1.getTotalScrollRange();
+            float scrollFactor = (float) -verticalOffset / totalScrollRange;
+            float alpha = 1f - scrollFactor;
+            alpha = Math.max(0.5f, Math.min(1f, alpha));
+            menuHeaderImage.setAlpha(alpha);
         });
 
-        updateBasketButton();
 
+        MenuController.getMenu(businessName, menu -> {
+            BasketController.getInstance().setMenuItems(menu);
+            menuAdapter = new MenuAdapter(menu, this, getContext());
+            recyclerView.setAdapter(menuAdapter);
+        });
+
+        basketButton = view.findViewById(R.id.basketButton);
         basketButton.setOnClickListener(v -> {
-            MapFragment mapFragment = new MapFragment();
+            List<Menu.MenuItem> allItems = BasketController.getInstance().getBasketItems();
+            List<Menu.MenuItem> filteredItems = new ArrayList<>();
+
+            for (Menu.MenuItem item : allItems) {
+                if (item.getCount() > 0) {
+                    filteredItems.add(item);
+                }
+            }
+
+            ConfirmOrderFragment confirmOrderFragment = new ConfirmOrderFragment(filteredItems);
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, mapFragment) // TODO: make confrirm order fragment
+                    .replace(R.id.fragment_container, confirmOrderFragment)
                     .addToBackStack(null)
                     .commit();
         });
 
+        updateBasketButton();
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (menuAdapter != null) {
+            menuAdapter.notifyDataSetChanged();
+        }
+        // TODO: fix when fault is found
+        BasketController.getInstance().clearBasket();
+        updateBasketButton();
     }
 
     public void onBasketUpdated() {
