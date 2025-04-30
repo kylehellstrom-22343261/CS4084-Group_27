@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unieats.R;
 import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.ConfirmOrderAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class ConfirmOrderFragment extends Fragment {
@@ -41,6 +44,11 @@ public class ConfirmOrderFragment extends Fragment {
         Button confirmOrderButton = view.findViewById(R.id.confirm_order_button);
         confirmOrderButton.setOnClickListener(v -> {
             // Handle placing the order
+            FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+
+            DatabaseReference dbRef = db.getReference("Order/data");
+
+            dbRef.push().setValue(basketItems);
         });
 
         return view;
