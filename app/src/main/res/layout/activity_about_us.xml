@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Horizontal Layout for Back Button and Logo -->
+        <!--Horizontal Layout for Back Button and Logo-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,6 @@
                 >
 
                 <ImageView
-                    android:id="@+id/companyLogo"
                     android:layout_width="150dp"
                     android:layout_height="60dp"
                     android:src="@drawable/unieats_logo"

@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".view.activity.SettingsActivity"></activity>
         <activity android:name=".view.activity.FavouritesActivity" />
+        <activity android:name=".view.activity.AboutUsActivity" />
 
     </application>
 
