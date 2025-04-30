@@ -5,30 +5,42 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.RestaurantController;
+import com.example.unieats.view.adapter.FavouritesAdapter;
+import com.example.unieats.view.adapter.RestaurantAdapter;
+import com.example.unieats.view.fragment.MenuFragment;
 
 public class FavouritesActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Activity time bar colour
-        View decor = getWindow().getDecorView();
-        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_favourites);
 
+//        // Load the FavouritesFragment into this activity
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.replace(R.id.favourites_container, new FavouritesFragment());
+//        transaction.commit();
 
-        // Find the back button by ID
-        Button backButton = findViewById(R.id.backButton);
-        // Set click listener for the back button
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // End the FavouritesActivity
-                finish();
-            }
+        RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //TODO wait for luke to create getFavouriteRestuarant method
+        RestaurantController.getRestaurants(restaurants -> {
+            FavouritesAdapter adapter = new FavouritesAdapter(restaurants);
+
+            recyclerView.setAdapter(adapter);
         });
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 }
