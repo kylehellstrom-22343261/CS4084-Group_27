@@ -1,5 +1,6 @@
 package com.example.unieats.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.view.adapter.FavouritesAdapter;
 import com.example.unieats.view.adapter.RestaurantAdapter;
@@ -23,6 +25,7 @@ public class FavouritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
+        Context context = getApplicationContext();
 
 //        // Load the FavouritesFragment into this activity
 //        FragmentManager fragmentManager = getSupportFragmentManager();
@@ -34,7 +37,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //TODO wait for luke to create getFavouriteRestuarant method
-        RestaurantController.getRestaurants(restaurants -> {
+        FavouritesController.getFavourites(context, restaurants -> {
             FavouritesAdapter adapter = new FavouritesAdapter(restaurants);
 
             recyclerView.setAdapter(adapter);

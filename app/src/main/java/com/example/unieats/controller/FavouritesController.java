@@ -21,6 +21,11 @@ public class FavouritesController {
         void onFavouritesLoaded(List<Restaurant> favourites);
     }
 
+    public static boolean isFavourite(Context context, String restaurantName) {
+        ArrayList<String> currentFavourites = readFavourites(context);
+        return currentFavourites.contains(restaurantName);
+    };
+
     public static void writeFavourite(Context context, String restaurantName) {
         ArrayList<String> currentFavourites = readFavourites(context);
         String outputString = "";
@@ -34,6 +39,23 @@ public class FavouritesController {
                 outputString += restaurantName + "\n";
             }
 
+            fos.write(outputString.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void removeFavourite(Context context, String restaurantName) {
+        ArrayList<String> currentFavourites = readFavourites(context);
+        currentFavourites.remove(restaurantName);
+
+        String outputString = "";
+
+        for (String restaurant : currentFavourites) {
+            outputString += restaurant + "\n";
+        }
+
+        try (FileOutputStream fos = context.openFileOutput(favouritesFileName, Context.MODE_PRIVATE)) {
             fos.write(outputString.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
