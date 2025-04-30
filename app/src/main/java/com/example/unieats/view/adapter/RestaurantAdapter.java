@@ -15,10 +15,13 @@ import com.example.unieats.R;
 import com.example.unieats.model.Restaurant;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Set<String> favouriteRestaurants = new HashSet<>();
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_RESTAURANT = 1;
     private static final String HEADER_TEXT = "All Restaurants";
@@ -87,9 +90,24 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             vh.ratingStar.setTextColor(color);
             vh.rating.setTextColor(color);
             vh.rating.setText(String.format("%.1f", restaurant.getRating()));
-            
+
             vh.image.setImageResource(holder.itemView.getContext().getResources()
                     .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
+
+            vh.heart.setText("\uf004"); // Unicode heart
+            boolean isFavourited = favouriteRestaurants.contains(restaurant.getBusinessName());
+            int heartColor = ContextCompat.getColor(context, isFavourited ? android.R.color.holo_red_dark : android.R.color.darker_gray);
+            vh.heart.setTextColor(heartColor);
+
+            vh.heart.setOnClickListener(v -> {
+                String name = restaurant.getBusinessName();
+                if (favouriteRestaurants.contains(name)) {
+                    favouriteRestaurants.remove(name);
+                } else {
+                    favouriteRestaurants.add(name);
+                }
+                notifyItemChanged(position); // Refresh this item only
+            });
 
 
             vh.itemView.setOnClickListener(v -> {
@@ -121,6 +139,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         TextView name, description, ratingStar, rating;
         ImageView image;
+        TextView heart;
 
         public RestaurantViewHolder(View view) {
             super(view);
@@ -129,6 +148,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ratingStar = view.findViewById(R.id.restaurant_rating_star);
             rating = view.findViewById(R.id.restaurant_rating);
             image = view.findViewById(R.id.restaurant_image);
+            heart = view.findViewById(R.id.favourites_Icon);
         }
     }
 }

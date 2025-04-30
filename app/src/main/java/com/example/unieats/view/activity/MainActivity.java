@@ -16,11 +16,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.unieats.R;
+import com.example.unieats.model.Restaurant;
 import com.example.unieats.view.fragment.RestaurantFragment;
 
 import org.osmdroid.config.Configuration;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
+    public static Set<String> favouriteRestaurants = new HashSet<>();
+    public static List<Restaurant> allRestaurants = new ArrayList<>();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
