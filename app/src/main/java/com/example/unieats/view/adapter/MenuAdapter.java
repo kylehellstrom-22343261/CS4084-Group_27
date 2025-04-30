@@ -36,9 +36,6 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.items = items;
         this.basketUpdateListener = basketUpdateListener;
         this.context = context;
-        Log.d("MenuFragment", "Total item count: " + items.size());
-        Log.d("MenuFragment", "Basket items: " + items.size());
-
     }
 
     /**
