@@ -1,6 +1,7 @@
 package com.example.unieats.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.items = items;
         this.basketUpdateListener = basketUpdateListener;
         this.context = context;
+        Log.d("MenuFragment", "Total item count: " + items.size());
+        Log.d("MenuFragment", "Basket items: " + items.size());
+
     }
 
     /**
