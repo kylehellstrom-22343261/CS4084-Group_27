@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.BasketController;
 import com.example.unieats.model.Menu;
 
 import java.util.List;
@@ -21,15 +23,21 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final String HEADER_TEXT = "Confirm Your Order";
     private final List<Menu.MenuItem> basketItems;
     private final Context context;
+    private OnBasketEmptyListener onBasketEmptyListener;
 
-    public ConfirmOrderAdapter(List<Menu.MenuItem> basketItems, Context context) {
+    public ConfirmOrderAdapter(List<Menu.MenuItem> basketItems, Context context, OnBasketEmptyListener onBasketEmptyListener) {
         this.basketItems = basketItems;
         this.context = context;
+        this.onBasketEmptyListener = onBasketEmptyListener;
+    }
+
+    // Define the listener interface
+    public interface OnBasketEmptyListener {
+        void onBasketEmpty();
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Return the header type for position 0, otherwise return the menu item type
         if (position == 0) {
             return TYPE_HEADER;
         } else {
@@ -47,7 +55,6 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_confirm_order, parent, false);
             return new ConfirmOrderViewHolder(view);
         }
-
     }
 
     @Override
@@ -55,20 +62,43 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof OrderHeaderViewHolder) {
             ((OrderHeaderViewHolder) holder).headerTitle.setText(HEADER_TEXT);
         } else {
-            // Only show items with count > 0
-            Menu.MenuItem menuItem = basketItems.get(position -1);
+            Menu.MenuItem menuItem = basketItems.get(position - 1);
+            BasketController basketController = BasketController.getInstance();
 
             ((ConfirmOrderViewHolder) holder).name.setText(menuItem.getName());
             ((ConfirmOrderViewHolder) holder).price.setText(String.format("€%.2f", menuItem.getPrice()));
             ((ConfirmOrderViewHolder) holder).quantity.setText("" + menuItem.getCount());
+
+            // Handle "Remove" button click
+            ((ConfirmOrderViewHolder) holder).removeButton.setOnClickListener(v -> {
+                basketController.removeItem(menuItem); // Remove item from basket
+
+                if (basketController.getTotalItemCount() == 0) {
+                    if (onBasketEmptyListener != null) {
+                        onBasketEmptyListener.onBasketEmpty();  // Notify the parent that the basket is empty
+                    }
+                } else if (menuItem.getCount() == 0) {
+                    basketItems.remove(position - 1);
+                    notifyItemRemoved(position);  // Remove item from the adapter
+                    notifyItemRangeChanged(position, basketItems.size()); // Refresh remaining items
+                } else {
+                    ((ConfirmOrderViewHolder) holder).quantity.setText(String.valueOf(menuItem.getCount()));
+                    notifyItemChanged(position);  // Refresh the item
+                }
+            });
+
+            // Handle "Add" button click
+            ((ConfirmOrderViewHolder) holder).addButton.setOnClickListener(v -> {
+                basketController.addItem(menuItem);
+                ((ConfirmOrderViewHolder) holder).quantity.setText(String.valueOf(menuItem.getCount()));
+                notifyItemChanged(position);  // Notify RecyclerView to refresh this item
+            });
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-        return 1 + basketItems.size(); // 1 for the header and the rest for items in the basket
+        return 1 + basketItems.size();  // 1 for the header and the rest for items
     }
 
     static class OrderHeaderViewHolder extends RecyclerView.ViewHolder {
@@ -82,12 +112,15 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public static class ConfirmOrderViewHolder extends RecyclerView.ViewHolder {
         TextView name, price, quantity;
+        Button removeButton, addButton;
 
         public ConfirmOrderViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.confirm_order_item_name);
             quantity = itemView.findViewById(R.id.confirm_order_item_quantity);
             price = itemView.findViewById(R.id.confirm_order_item_price);
+            removeButton = itemView.findViewById(R.id.order_item_remove_button);
+            addButton = itemView.findViewById(R.id.order_item_add_button);
         }
     }
 }

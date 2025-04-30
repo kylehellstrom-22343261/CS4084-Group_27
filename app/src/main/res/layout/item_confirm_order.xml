@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
     android:layout_marginBottom="2dp"
     android:background="@color/white"
-    android:elevation="3dp"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:elevation="3dp">
 
     <!-- Item Name x Quantity -->
     <LinearLayout
@@ -20,20 +20,19 @@
             android:id="@+id/confirm_order_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             android:text="ItemName"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingEnd="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingEnd="3dp"
             android:text="x"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:paddingEnd="3dp" />
 
         <TextView
             android:id="@+id/confirm_order_item_quantity"
@@ -43,7 +42,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
-
 
     <!-- Price -->
     <TextView
@@ -59,36 +57,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="end"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="end">
 
         <Button
             android:id="@+id/order_item_remove_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginVertical="3dp"
-            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
             android:background="@drawable/remove_button_bg"
-            android:contentDescription="Add"
-            android:elevation="3dp"
+            android:contentDescription="Remove"
+            android:elevation="2dp"
             android:fontFamily="@font/fa_solid"
             android:gravity="center"
             android:padding="0dp"
             android:stateListAnimator="@null"
             android:text="\uf068"
             android:textColor="@color/red"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/order_item_add_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginVertical="3dp"
-            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
             android:background="@drawable/add_button_bg"
             android:contentDescription="Add"
             android:elevation="3dp"
@@ -98,7 +90,6 @@
             android:stateListAnimator="@null"
             android:text="\uf067"
             android:textColor="@color/green"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

@@ -7,6 +7,18 @@
     android:paddingBottom="16dp"
     android:background="@color/white">
 
+    <!-- Empty Basket Message -->
+    <TextView
+        android:id="@+id/empty_basket_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your basket is empty.\n Please return to the menu."
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:paddingVertical="16dp"
+        android:gravity="center"
+        android:visibility="visible" />
+
     <!-- RecyclerView to display the order items -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_confirm_order"
