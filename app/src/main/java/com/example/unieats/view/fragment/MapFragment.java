@@ -5,14 +5,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.unieats.BuildConfig;
 import com.example.unieats.R;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
@@ -22,12 +24,19 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment {
 
     private final GeoPoint restaurantLocation = new GeoPoint(52.67908912105616, -8.569674306021252); // Example restaurant coordinates (e.g., NYC)
     private MapView mapView;
+    public double distanceKm;
     private MyLocationNewOverlay myLocationOverlay;
     // The Pavilion: 52.67908912105616, -8.569674306021252
 
@@ -70,28 +79,93 @@ public class MapFragment extends Fragment {
 
     private void drawRoute() {
         myLocationOverlay.runOnFirstFix(() -> {
-            GeoPoint currentGeoPoint = myLocationOverlay.getMyLocation();
-            Log.d("MapFragment", "User location: " + currentGeoPoint);
+            GeoPoint start = myLocationOverlay.getMyLocation();
 
-            if (currentGeoPoint != null && getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    Polyline route = new Polyline();
-                    route.setPoints(Arrays.asList(currentGeoPoint, restaurantLocation));
+            if (start != null && getActivity() != null) {
+                new Thread(() -> {
+                    HttpURLConnection conn = null;
+                    try {
+                        String apiKey = BuildConfig.ORS_API_KEY;
+                        String urlStr = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
+                        URL url = new URL(urlStr);
+                        conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Authorization", apiKey);
+                        conn.setRequestProperty("Content-Type", "application/json");
+                        conn.setDoOutput(true);
 
-                    route.setPoints(Arrays.asList(currentGeoPoint, restaurantLocation));
-                    mapView.getOverlays().add(route);
-                    BoundingBox box = BoundingBox.fromGeoPointsSafe(Arrays.asList(currentGeoPoint, restaurantLocation));
-                    mapView.zoomToBoundingBox(box, true, 100); // 100 is padding in pixels
+                        // Construct the JSON body properly
+                        JSONObject jsonBody = new JSONObject();
+                        JSONArray coordinates = new JSONArray();
+                        coordinates.put(new JSONArray().put(start.getLongitude()).put(start.getLatitude()));
+                        coordinates.put(new JSONArray().put(restaurantLocation.getLongitude()).put(restaurantLocation.getLatitude()));
+                        jsonBody.put("coordinates", coordinates);
 
-                    mapView.invalidate(); // Refresh the map
-                });
-            } else if (getActivity() != null) {
-                getActivity().runOnUiThread(() ->
-                        Toast.makeText(getActivity(), "Location not available", Toast.LENGTH_SHORT).show()
-                );
+                        String bodyStr = jsonBody.toString();
+                        conn.getOutputStream().write(bodyStr.getBytes("UTF-8"));
+
+                        int responseCode = conn.getResponseCode();
+                        InputStream inputStream = (responseCode >= 200 && responseCode < 300)
+                                ? conn.getInputStream()
+                                : conn.getErrorStream();
+
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line);
+                        }
+
+                        Log.d("ORS", "Response: " + sb.toString());
+
+                        JSONObject response = new JSONObject(sb.toString());
+                        JSONArray coordinatesArray = response
+                                .getJSONArray("features")
+                                .getJSONObject(0)
+                                .getJSONObject("geometry")
+                                .getJSONArray("coordinates");
+
+                        // Extract total distance in meters
+                        double distanceInMeters = response
+                                .getJSONArray("features")
+                                .getJSONObject(0)
+                                .getJSONObject("properties")
+                                .getJSONObject("summary")
+                                .getDouble("distance");
+
+                        // Convert to kilometers
+                        distanceKm = distanceInMeters / 1000.0;
+
+                        List<GeoPoint> geoPoints = new ArrayList<>();
+                        for (int i = 0; i < coordinatesArray.length(); i++) {
+                            JSONArray coord = coordinatesArray.getJSONArray(i);
+                            double lon = coord.getDouble(0);
+                            double lat = coord.getDouble(1);
+                            geoPoints.add(new GeoPoint(lat, lon));
+                        }
+
+                        getActivity().runOnUiThread(() -> {
+                            Polyline route = new Polyline();
+                            route.setPoints(geoPoints);
+                            route.setColor(getResources().getColor(R.color.black)); // or Color.BLUE
+                            route.setWidth(6f);
+                            mapView.getOverlays().add(route);
+                            mapView.zoomToBoundingBox(BoundingBox.fromGeoPointsSafe(geoPoints), true, 100);
+                            mapView.invalidate();
+                        });
+
+                    } catch (Exception e) {
+                        Log.e("ORS", "Route draw failed", e);
+                    } finally {
+                        if (conn != null) {
+                            conn.disconnect();
+                        }
+                    }
+                }).start();
             }
         });
     }
+
 
 
     @Override
