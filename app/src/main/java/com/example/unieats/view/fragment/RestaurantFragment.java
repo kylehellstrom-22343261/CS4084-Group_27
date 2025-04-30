@@ -1,5 +1,7 @@
 package com.example.unieats.view.fragment;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.view.adapter.RestaurantAdapter;
 
@@ -38,6 +41,22 @@ public class RestaurantFragment extends Fragment {
 
             recyclerView.setAdapter(adapter);
         });
+//        Context context = getContext();
+//
+//        FavouritesController.getFavourites(context, restaurants -> {
+//            RestaurantAdapter adapter = new RestaurantAdapter(restaurants, restaurant -> {
+//                // On restaurant click, open MenuFragment
+//                Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
+//
+//                requireActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.fragment_container, menuFragment)
+//                        .addToBackStack(null)
+//                        .commit();
+//            });
+//
+//            recyclerView.setAdapter(adapter);
+//        });
 
         return view;
     }
