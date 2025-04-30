@@ -1,6 +1,7 @@
 package com.example.unieats.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +103,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
             menuAdapter.notifyDataSetChanged();
         }
         // TODO: fix when fault is found
-        BasketController.getInstance().clearBasket();
+//        BasketController.getInstance().clearBasket();
         updateBasketButton();
     }
 

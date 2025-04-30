@@ -19,8 +19,20 @@ public class BasketController {
         return instance;
     }
 
-    public void setMenuItems(List<MenuItem> menuItems) {
-        this.allMenuItems = menuItems;
+    public void setMenuItems(List<MenuItem> newMenuItems) {
+        // Preserve previous counts if already set
+        if (this.allMenuItems != null) {
+            for (MenuItem newItem : newMenuItems) {
+                for (MenuItem oldItem : this.allMenuItems) {
+                    if (oldItem.getName().equals(newItem.getName()) &&
+                            oldItem.getBusinessName().equals(newItem.getBusinessName())) {
+                        newItem.setCount(oldItem.getCount());
+                        break;
+                    }
+                }
+            }
+        }
+        this.allMenuItems = newMenuItems;
     }
 
     public void addItem(MenuItem item) {

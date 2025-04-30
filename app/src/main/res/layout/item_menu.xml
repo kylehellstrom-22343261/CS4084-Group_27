@@ -14,15 +14,6 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="8dp">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/menu_item_image"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:layout_marginHorizontal="12dp"-->
-<!--            android:contentDescription="Menu item image"-->
-<!--            android:src="@drawable/scholars_club" />-->
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

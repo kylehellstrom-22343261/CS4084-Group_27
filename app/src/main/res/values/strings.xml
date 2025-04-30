@@ -3,4 +3,14 @@
     <string name="unieats_logo">UniEats Logo</string>
     <string name="restaurant_header">Restaurants Near You</string>
     <string name="euro">€</string>
+    <string name="mission_statement_title">Our Mission</string>
+    <string name="mission_statement">We felt that the university needs an ease of access to food so we decided to create one where you can preorder food for collection. </string>
+    <string name="history_title">Our History</string>
+    <string name="history_text">We started in January 2025 and have grown our product to meet students needs regarding preorder food on campus.</string>
+    <string name="contact_title">Contact Us</string>
+    <string name="contact_email">info@unieats.com</string>
+    <string name="contact_phone">+353-89-123-4567</string>
+    <string name="created_By">Crafted with love by</string>
+    <string name="created_By_Names">Kyle Hellstrom\nLuke Minogue\nSean Mulcahy\nJayeesh Katyal</string>
+
 </resources>

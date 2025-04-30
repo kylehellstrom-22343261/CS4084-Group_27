@@ -12,34 +12,33 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
-import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.model.Favourites;
 import com.example.unieats.model.Restaurant;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Set<String> favouriteRestaurants = new HashSet<>();
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_RESTAURANT = 1;
-    private static final String HEADER_TEXT = "All Restaurants";
+    private static final String HEADER_TEXT = "Favourite Restaurants";
 
     private final List<Restaurant> restaurantList;
-    private final OnRestaurantClickListener listener;
+   // private final OnRestaurantClickListener listener;
 
-    public RestaurantAdapter(
-            List<Restaurant> restaurants,
-            OnRestaurantClickListener listener)
+    public FavouritesAdapter(
+            List<Restaurant> restaurants
+    //        OnRestaurantClickListener listener
+    )
     {
         restaurants.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
         this.restaurantList = restaurants;
 
-        this.listener = listener;
+       // this.listener = listener;
     }
 
     @Override
@@ -75,8 +74,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
             RestaurantViewHolder vh = (RestaurantViewHolder) holder;
 
-            FavouritesController favouritesController = new FavouritesController();
-
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
 
@@ -109,21 +106,20 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     Favourites.getInstance().removeFavourite(restaurant);
                 } else {
                     Favourites.getInstance().addFavourite(restaurant);
-                    FavouritesController.writeFavourite(context, restaurant.getBusinessName());
                 }
                 notifyItemChanged(position);
             });
 
 
-            vh.itemView.setOnClickListener(v -> {
-                if (listener != null) listener.onRestaurantClick(restaurant);
-            });
+//            vh.itemView.setOnClickListener(v -> {
+//                if (listener != null) listener.onRestaurantClick(restaurant);
+//            });
         }
     }
 
-    public interface OnRestaurantClickListener {
-        void onRestaurantClick(Restaurant restaurant);
-    }
+//    public interface OnRestaurantClickListener {
+//        void onRestaurantClick(Restaurant restaurant);
+//    }
 
     /* ViewHolders */
 
