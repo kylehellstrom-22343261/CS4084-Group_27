@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,11 +20,16 @@ import com.example.unieats.controller.BasketController;
 import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.ConfirmOrderAdapter;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
-public class ConfirmOrderFragment extends Fragment {
+public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapter.OnBasketEmptyListener {
 
     private List<Menu.MenuItem> basketItems;
 
@@ -56,11 +63,18 @@ public class ConfirmOrderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm_order, container, false);
 
+        TextView emptyBasketMessage = view.findViewById(R.id.empty_basket_message);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_confirm_order);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Button confirmOrderButton = view.findViewById(R.id.confirm_order_button);
 
-        if (basketItems != null && !basketItems.isEmpty()) {
-            ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext());
+        boolean isEmpty = isBasketEmpty();
+        emptyBasketMessage.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        confirmOrderButton.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+
+        if (!isEmpty) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext(), this);
             recyclerView.setAdapter(adapter);
         }
 
@@ -71,10 +85,11 @@ public class ConfirmOrderFragment extends Fragment {
             if (item.getCount() > 0) {
                 filteredItems.add(item);
             }
+
         }
 
-        Button confirmOrderButton = view.findViewById(R.id.confirm_order_button);
         confirmOrderButton.setOnClickListener(v -> {
+
             OrderConfirmedFragment orderConfirmedFragment = new OrderConfirmedFragment(filteredItems);
             Log.d("MenuFragment", "newInstance: " + BasketController.getInstance().getBasketItems().size());
             requireActivity().getSupportFragmentManager()
@@ -82,8 +97,33 @@ public class ConfirmOrderFragment extends Fragment {
                     .replace(R.id.fragment_container, orderConfirmedFragment)
                     .addToBackStack(null)
                     .commit();
+
+            // Handle placing the order
+            FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+
+            DatabaseReference dbRef = db.getReference("Order/data");
+
+            dbRef.push().setValue(basketItems);
+
         });
 
         return view;
+    }
+
+    @Override
+    public void onBasketEmpty() {
+        // When the basket is empty, finish the activity (or fragment)
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    private boolean isBasketEmpty() {
+        for (Menu.MenuItem item : basketItems) {
+            if (item.getCount() > 0) {
+                return false; // At least one item has a count > 0
+            }
+        }
+        return true; // All items have count = 0
     }
 }
