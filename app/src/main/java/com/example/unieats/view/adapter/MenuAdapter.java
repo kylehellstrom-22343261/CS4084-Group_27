@@ -37,6 +37,11 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
     }
 
+    /**
+     * Returns the view type of the item at the specified position.
+     * @param position position to query
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         if (position == 0) return TYPE_RESTAURANT_HEADER;
@@ -44,6 +49,10 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         else return TYPE_MENU;
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     * @return
+     */
     @Override
     public int getItemCount() {
         return items.size() + 2;
