@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/order_success_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order Confirmed!"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
+    <!-- Order ID -->
+    <TextView
+        android:id="@+id/order_id_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Order ID: #123456"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingBottom="4dp" />
+
+    <!-- Collection Time -->
+    <TextView
+        android:id="@+id/collection_time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estimated Collection: 2:15 PM"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginBottom="12dp" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_confirm_order"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+    <!-- Return Home Button -->
+    <Button
+        android:id="@+id/return_home_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Return Home"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:backgroundTint="@color/green"
+        android:elevation="6dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+</LinearLayout>

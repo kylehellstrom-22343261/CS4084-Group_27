@@ -35,7 +35,6 @@ public class BasketController {
         this.allMenuItems = newMenuItems;
     }
 
-
     public void addItem(MenuItem item) {
         item.setCount(item.getCount() + 1);
     }
