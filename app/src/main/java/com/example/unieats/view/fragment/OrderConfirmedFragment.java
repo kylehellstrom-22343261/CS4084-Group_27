@@ -1,9 +1,11 @@
 package com.example.unieats.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.model.Menu;
+import com.example.unieats.view.activity.MainActivity;
 import com.example.unieats.view.adapter.OrderConfirmedAdapter;
 
 import java.util.List;
@@ -57,6 +60,13 @@ public class OrderConfirmedFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         OrderConfirmedAdapter adapter = new OrderConfirmedAdapter(basketItems, getContext());
         recyclerView.setAdapter(adapter);
+
+        Button finishOrder = view.findViewById(R.id.return_home_button);
+        finishOrder.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class); // replace HomeActivity with your home activity
+            startActivity(intent);
+            requireActivity().finish();
+        });
 
         return view;
     }
