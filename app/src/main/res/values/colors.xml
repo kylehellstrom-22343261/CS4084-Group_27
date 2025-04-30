@@ -1,12 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="grey">#FFB0B0B0</color>
-    <color name="light_grey">#FAFAFA</color>
-    <color name="lime">#FF47FF9F</color>
-    <color name="green">#FF00A750</color>
-    <color name="orange">#FFFFA000</color>
-    <color name="red">#FFDC3545</color>
-    <color name="lime_25">#2547FF9F</color>
+        <color name="black">#FF000000</color>
+        <color name="white">#FFFFFFFF</color>
+        <color name="grey">#FFB0B0B0</color>
+        <color name="light_grey">#FAFAFA</color>
+        <color name="lime">#FF47FF9F</color>
+        <color name="green">#FF00A750</color>
+        <color name="orange">#FFFFA000</color>
+        <color name="red">#FFDC3545</color>
+        <color name="lime_25">#2547FF9F</color>
+
+
+<!--    <color name="dark_gray">#757575</color>     -->
+<!--    <color name="light_gray">#E0E0E0</color>    -->
+
+<!--    <color name="accent_orange">#FF9800</color>-->
+<!--    <color name="accent_blue">#2196F3</color>-->
+
+<!--    <color name="background_light">#FAFAFA</color>-->
+<!--    <color name="background_dark">#F5F5F5</color>-->
+
+<!--    <color name="text_primary">#212121</color>-->
+<!--    <color name="text_secondary">#757575</color>-->
+<!--    <color name="text_hint">#9E9E9E</color>-->
+
+<!--    <color name="button_green">#43A047</color>-->
+<!--    <color name="button_pressed">#388E3C</color>-->
 </resources>
