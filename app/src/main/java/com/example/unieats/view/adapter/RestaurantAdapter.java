@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
-import com.example.unieats.model.Favourites;
+import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.model.Restaurant;
 
 import java.util.Comparator;
@@ -62,6 +62,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .inflate(R.layout.item_restaurant, parent, false);
             return new RestaurantViewHolder(view);
         }
+
     }
 
     @Override
@@ -72,6 +73,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (holder instanceof RestaurantViewHolder) {
             Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
             RestaurantViewHolder vh = (RestaurantViewHolder) holder;
+
+            FavouritesController favouritesController = new FavouritesController();
 
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
@@ -96,19 +99,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
             vh.heart.setText("\uf004"); // Unicode heart
-            boolean isFavourited = Favourites.getInstance().isFavourite(restaurant);
+            boolean isFavourited = FavouritesController.isFavourite(context, restaurant.getBusinessName());
             int heartColor = ContextCompat.getColor(context, isFavourited ? android.R.color.holo_red_dark : android.R.color.darker_gray);
             vh.heart.setTextColor(heartColor);
 
             vh.heart.setOnClickListener(v -> {
-                if (Favourites.getInstance().isFavourite(restaurant)) {
-                    Favourites.getInstance().removeFavourite(restaurant);
+                if (isFavourited) {
+                    FavouritesController.removeFavourite(context, restaurant.getBusinessName());
                 } else {
-                    Favourites.getInstance().addFavourite(restaurant);
+                    FavouritesController.writeFavourite(context, restaurant.getBusinessName());
                 }
                 notifyItemChanged(position);
             });
-
 
             vh.itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onRestaurantClick(restaurant);

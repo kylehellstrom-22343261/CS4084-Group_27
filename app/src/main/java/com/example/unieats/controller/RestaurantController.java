@@ -24,21 +24,20 @@ public class RestaurantController {
             List<Restaurant> result = new ArrayList<>();
 
             if (task.isSuccessful()) {
-                GenericTypeIndicator<HashMap<String, Restaurant>> typeIndicator = new GenericTypeIndicator<>() {};
+                GenericTypeIndicator<HashMap<String, Restaurant>> typeIndicator = new GenericTypeIndicator<>() {
+                };
 
                 HashMap<String, Restaurant> firebaseResult = task.getResult().getValue(typeIndicator);
 
                 if (firebaseResult != null) {
                     for (Map.Entry<String, Restaurant> e : firebaseResult.entrySet()) {
-                        if(e.getValue() != null){
+                        if (e.getValue() != null) {
                             result.add(e.getValue());
                         }
                     }
                 }
 
                 callback.onRestaurantsLoaded(result);
-            } else {
-                System.out.println("Error getting restaurants: " + task.getException());
             }
         });
     }

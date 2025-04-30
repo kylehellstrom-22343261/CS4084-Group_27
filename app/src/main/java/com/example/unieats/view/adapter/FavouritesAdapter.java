@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.model.Favourites;
 import com.example.unieats.model.Restaurant;
 
@@ -97,15 +98,17 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
             vh.heart.setText("\uf004"); // Unicode heart
-            boolean isFavourited = Favourites.getInstance().isFavourite(restaurant);
+//            boolean isFavourited = Favourites.getInstance().isFavourite(restaurant);
+            boolean isFavourited = FavouritesController.isFavourite(context, restaurant.getBusinessName());
             int heartColor = ContextCompat.getColor(context, isFavourited ? android.R.color.holo_red_dark : android.R.color.darker_gray);
             vh.heart.setTextColor(heartColor);
 
             vh.heart.setOnClickListener(v -> {
-                if (Favourites.getInstance().isFavourite(restaurant)) {
-                    Favourites.getInstance().removeFavourite(restaurant);
+                if (isFavourited) {
+                    FavouritesController.removeFavourite(context, restaurant.getBusinessName());
                 } else {
-                    Favourites.getInstance().addFavourite(restaurant);
+//                    Favourites.getInstance().addFavourite(restaurant);
+                    FavouritesController.writeFavourite(context, restaurant.getBusinessName());
                 }
                 notifyItemChanged(position);
             });
