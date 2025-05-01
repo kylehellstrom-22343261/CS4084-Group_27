@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
     private ImageView menuHeaderImage;
     private MenuAdapter menuAdapter;
     private TextView totalPrice;
+    private LinearLayout layout;
 
     public static MenuFragment newInstance(String businessName) {
         MenuFragment fragment = new MenuFragment();
@@ -74,8 +76,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
             menuAdapter = new MenuAdapter(menu, this, getContext());
             recyclerView.setAdapter(menuAdapter);
         });
-       totalPrice = view.findViewById(R.id.total_price);
-
+        totalPrice = view.findViewById(R.id.total_price);
+        layout = view.findViewById(R.id.menu_buttons);
         basketButton = view.findViewById(R.id.basketButton);
         basketButton.setOnClickListener(v -> {
             List<Menu.MenuItem> allItems = BasketController.getInstance().getBasketItems();
@@ -122,16 +124,44 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
         Log.d("BasketDebug", "Total formated value: " + String.format("Total: €%.2f", total));
         totalPrice.setText(String.format("Total: €%.2f", total));
         basketButton.setText(String.format("   \uF291 %d", count));
-        basketButton.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+
+        // Layout
+        layout.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
         if (count > 0) {
-            basketButton.animate()
-                    .scaleX(1.05f)
-                    .scaleY(1.05f)
+            layout.animate()
+                    .scaleX(1.02f)
+                    .scaleY(1.02f)
                     .setDuration(100)
-                    .withEndAction(() -> basketButton.animate()
+                    .withEndAction(() -> layout.animate()
                             .scaleX(1f)
                             .scaleY(1f)
                             .setDuration(100))
+                    .start();
+        }
+
+        // Total Price
+        if (count > 0) {
+            totalPrice.animate()
+                    .scaleX(1.02f)
+                    .scaleY(1.02f)
+                    .setDuration(50)
+                    .withEndAction(() -> totalPrice.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(50))
+                    .start();
+        }
+
+        // Basket Button
+        if (count > 0) {
+            basketButton.animate()
+                    .scaleX(1.02f)
+                    .scaleY(1.02f)
+                    .setDuration(150)
+                    .withEndAction(() -> basketButton.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(150))
                     .start();
         }
     }
