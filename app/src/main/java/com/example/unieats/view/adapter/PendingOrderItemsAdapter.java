@@ -2,6 +2,7 @@ package com.example.unieats.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ public class PendingOrderItemsAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PendingOrderItemsViewHolder) {
             Menu.MenuItem allItems = items.get(position);
+
+//            Log.d("PendingOrderItemsAdapter", "Binding item name: " + items.get(0).getName());
+//            Log.d("PendingOrderItemsAdapter", "Binding item count: " + items.get(0).getCount());
+
             PendingOrderItemsViewHolder vh = (PendingOrderItemsViewHolder) holder;
             vh.itemName.setText(allItems.getName());
             vh.itemQuantity.setText(String.valueOf(allItems.getCount()));

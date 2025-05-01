@@ -27,10 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.SettingsActivity"></activity>
+        <activity android:name=".view.activity.SettingsActivity"/>
         <activity android:name=".view.activity.FavouritesActivity" />
         <activity android:name=".view.activity.AboutUsActivity" />
         <activity android:name=".view.activity.PendingOrderActivity" />
+        <activity android:name=".view.activity.PendingOrderItemsActivity" />
         <activity android:name=".view.activity.BusinessLoginActivity" />
         <activity android:name=".view.activity.BusinessActivity" />
 <!--        <activity android:name=".view.activity.BusinessDashboardActivity"/>-->
