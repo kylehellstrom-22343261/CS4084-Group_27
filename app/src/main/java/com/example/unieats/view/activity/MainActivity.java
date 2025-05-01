@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     public static Set<String> favouriteRestaurants = new HashSet<>();
     public static List<Restaurant> allRestaurants = new ArrayList<>();
     private EditText searchBar;
-
     private void requestPermissionsIfNecessary(String[] permissions) {
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {

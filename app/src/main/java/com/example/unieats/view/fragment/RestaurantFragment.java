@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ public class RestaurantFragment extends Fragment {
     private RestaurantAdapter restaurantAdapter;
     private RecyclerView recyclerView;
     private List<Restaurant> allRestaurants = new ArrayList<>();
+    private Button pendingOrderButton;
 
     public RestaurantFragment() { }
 
@@ -47,6 +49,9 @@ public class RestaurantFragment extends Fragment {
 
             recyclerView.setAdapter(restaurantAdapter);
         });
+
+        pendingOrderButton = view.findViewById(R.id.pending_order_button);
+
 
         return view;
     }
