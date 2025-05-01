@@ -29,10 +29,10 @@
                 <ImageView
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/unieats_logo"
                     android:paddingHorizontal="16dp"
-                    android:layout_marginStart="8dp"
                     android:src="@drawable/unieats_logo" />
 
                 <View
@@ -45,8 +45,8 @@
                     android:id="@+id/favouritesButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_margin="16dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="16dp"
                     android:background="@drawable/reg_button_bg"
                     android:contentDescription="Favourites"
                     android:elevation="3dp"
@@ -56,16 +56,15 @@
                     android:stateListAnimator="@null"
                     android:text="\uf004"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
 
                 <!-- Settings -->
                 <Button
                     android:id="@+id/settingsButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="24dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/reg_button_bg"
                     android:contentDescription="Settings"
                     android:elevation="3dp"
@@ -75,8 +74,7 @@
                     android:stateListAnimator="@null"
                     android:text="\uf013"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
@@ -91,9 +89,9 @@
                 android:background="@drawable/search_bar_bg"
                 android:drawableStart="@android:drawable/ic_menu_search"
                 android:hint=" Search Restaurants &amp; Items. . ."
-                android:paddingBottom="5dp"
+                android:paddingHorizontal="6dp"
                 android:paddingTop="7dp"
-                android:paddingHorizontal="6dp"/>
+                android:paddingBottom="5dp" />
 
         </LinearLayout>
     </FrameLayout>
@@ -103,6 +101,19 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="Pending Order"
+            android:textColor="@color/black" />
+    </LinearLayout>
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,7 @@ public class MapFragment extends Fragment {
     private double aLongitude;
     private GeoPoint restaurantLocation;
     private MapView mapView;
+    private TextView routeDistanceTextView;
     public double distanceKm;
     private MyLocationNewOverlay myLocationOverlay;
     // The Pavilion: 52.67908912105616, -8.569674306021252
@@ -59,10 +61,12 @@ public class MapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        routeDistanceTextView = view.findViewById(R.id.route_distance);
         TextView restaurantNameTextView = view.findViewById(R.id.restaurant_name);
         restaurantNameTextView.setText(restaurantName);
-        // Get latitude and longitude
 
+
+        // Get latitude and longitude
         RestaurantController.getRestaurants(restaurants -> {
             for (Restaurant restaurant : restaurants) {
                 if (restaurant.getBusinessName().equals(restaurantName)) {
@@ -108,6 +112,10 @@ public class MapFragment extends Fragment {
     }
 
     private void drawRoute() {
+//        if (BuildConfig.ORS_API_KEY == null || BuildConfig.ORS_API_KEY.isEmpty()) {
+//            Toast.makeText(getContext(), "Missing ORS API Key. Add it to local.properties", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         myLocationOverlay.runOnFirstFix(() -> {
             GeoPoint start = myLocationOverlay.getMyLocation();
 
@@ -115,7 +123,10 @@ public class MapFragment extends Fragment {
                 new Thread(() -> {
                     HttpURLConnection conn = null;
                     try {
-                        String apiKey = BuildConfig.ORS_API_KEY;
+//                        String apiKey = BuildConfig.ORS_API_KEY;
+                        // I didnt want to do this but the api key is needed for it to draw...
+                        String apiKey = "5b3ce3597851110001cf6248448a61a28dc742978ec8b4e4b3039395";
+
                         String urlStr = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
                         URL url = new URL(urlStr);
                         conn = (HttpURLConnection) url.openConnection();
@@ -165,6 +176,9 @@ public class MapFragment extends Fragment {
 
                         // Convert to kilometers
                         distanceKm = distanceInMeters / 1000.0;
+                        getActivity().runOnUiThread(() -> {
+                            routeDistanceTextView.setText(String.format("%.2f", distanceKm));
+                        });
 
                         List<GeoPoint> geoPoints = new ArrayList<>();
                         for (int i = 0; i < coordinatesArray.length(); i++) {

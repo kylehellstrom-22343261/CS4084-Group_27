@@ -1,11 +1,11 @@
-import java.util.Properties
-
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(localPropertiesFile.inputStream())
-}
-val orsApiKey = localProperties.getProperty("ORS_API_KEY") ?: ""
+//import java.util.Properties
+//
+//val localProperties = Properties()
+//val localPropertiesFile = rootProject.file("local.properties")
+//if (localPropertiesFile.exists()) {
+//    localProperties.load(localPropertiesFile.inputStream())
+//}
+//val orsApiKey = localProperties.getProperty("ORS_API_KEY") ?: ""
 
 plugins {
     alias(libs.plugins.android.application) version "8.8.0"
@@ -23,7 +23,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "ORS_API_KEY", "\"$orsApiKey\"")
+//        buildConfigField("String", "ORS_API_KEY", "\"$orsApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
