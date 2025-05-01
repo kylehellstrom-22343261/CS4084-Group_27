@@ -48,4 +48,18 @@ public class OrderController {
             }
         });
     }
+
+    public List<Order> getPendingOrders() {
+        List<Order> result = new ArrayList<>();
+
+        getOrders(orders -> {
+            for(Order o : orders) {
+                if(o.isPending()) {
+                    result.add(o);
+                }
+            }
+        });
+
+        return result;
+    }
 }
