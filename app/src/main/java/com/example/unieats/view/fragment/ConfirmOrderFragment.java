@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -63,20 +64,13 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirm_order, container, false);
 
-        TextView emptyBasketMessage = view.findViewById(R.id.empty_basket_message);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_confirm_order);
         Button confirmOrderButton = view.findViewById(R.id.confirm_order_button);
 
-        boolean isEmpty = isBasketEmpty();
-        emptyBasketMessage.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        confirmOrderButton.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_confirm_order);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext(), this);
+        recyclerView.setAdapter(adapter);
 
-        if (!isEmpty) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext(), this);
-            recyclerView.setAdapter(adapter);
-        }
 
         List<Menu.MenuItem> allItems = BasketController.getInstance().getBasketItems();
         List<Menu.MenuItem> filteredItems = new ArrayList<>();
@@ -118,12 +112,4 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
         }
     }
 
-    private boolean isBasketEmpty() {
-        for (Menu.MenuItem item : basketItems) {
-            if (item.getCount() > 0) {
-                return false; // At least one item has a count > 0
-            }
-        }
-        return true; // All items have count = 0
-    }
 }

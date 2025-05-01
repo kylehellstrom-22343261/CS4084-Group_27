@@ -78,17 +78,18 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RestaurantHeaderViewHolder) {
             Menu.MenuItem restaurantInfo = items.get(0);
-            ((RestaurantHeaderViewHolder) holder).restaurantName.setText(restaurantInfo.getBusinessName());
-            ((RestaurantHeaderViewHolder) holder).restaurantDistance.setText("1.2 km away");
-            ((RestaurantHeaderViewHolder) holder).costIcon1.setVisibility(View.VISIBLE);
-            ((RestaurantHeaderViewHolder) holder).costIcon2.setVisibility(View.VISIBLE);
-            ((RestaurantHeaderViewHolder) holder).costIcon3.setVisibility(View.GONE);
+            RestaurantHeaderViewHolder vh = (RestaurantHeaderViewHolder) holder;
+            vh.restaurantName.setText(restaurantInfo.getBusinessName());
+            vh.restaurantDistance.setText("1.2 km away");
+            vh.costIcon1.setVisibility(View.VISIBLE);
+            vh.costIcon2.setVisibility(View.VISIBLE);
+            vh.costIcon3.setVisibility(View.GONE);
 
-            ((RestaurantHeaderViewHolder) holder).mapButton.setOnClickListener(v -> {
+            vh.mapButton.setOnClickListener(v -> {
                 if (context instanceof AppCompatActivity) {
                     FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                     fm.beginTransaction()
-                            .replace(R.id.fragment_container, new MapFragment())
+                            .replace(R.id.fragment_container, new MapFragment(restaurantInfo.getBusinessName()))
                             .addToBackStack(null)
                             .commit();
                 }
