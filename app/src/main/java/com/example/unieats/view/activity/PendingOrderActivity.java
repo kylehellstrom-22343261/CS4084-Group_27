@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.OrderController;
+import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
 import com.example.unieats.view.adapter.SettingsAdapter;
 
@@ -35,7 +37,7 @@ public class PendingOrderActivity extends AppCompatActivity {
             finish();
         });
 
-        List<Order> orders = new ArrayList<>();
+        List<Order> orders = OrderController.getPendingOrders();
         PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders);
         recyclerView.setAdapter(adapter);
     }

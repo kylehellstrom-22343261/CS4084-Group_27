@@ -25,7 +25,7 @@ public class OrderController {
         dbRef.push().setValue(order);
     }
 
-    public void getOrders(OrderCallback callback) {
+    public static void getOrders(OrderCallback callback) {
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
 
         DatabaseReference dbRef = db.getReference("Order/data");
@@ -49,7 +49,7 @@ public class OrderController {
         });
     }
 
-    public List<Order> getPendingOrders() {
+    public static List<Order> getPendingOrders() {
         List<Order> result = new ArrayList<>();
 
         getOrders(orders -> {
