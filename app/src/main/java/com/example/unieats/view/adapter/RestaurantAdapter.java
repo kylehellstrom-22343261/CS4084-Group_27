@@ -27,7 +27,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_RESTAURANT = 1;
     private static final String HEADER_TEXT = "All Restaurants";
 
-    private final List<Restaurant> restaurantList;
+    private List<Restaurant> restaurantList;
     private final OnRestaurantClickListener listener;
 
     public RestaurantAdapter(
@@ -121,6 +121,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public interface OnRestaurantClickListener {
         void onRestaurantClick(Restaurant restaurant);
     }
+
+    public void updateData(List<Restaurant> newList) {
+        this.restaurantList = newList;
+        notifyDataSetChanged(); // Refresh the RecyclerView
+
+    }
+
 
     /* ViewHolders */
 
