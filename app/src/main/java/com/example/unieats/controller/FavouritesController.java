@@ -66,9 +66,6 @@ public class FavouritesController {
         ArrayList<String> favouritesStrings = readFavourites(context);
         ArrayList<Restaurant> result = new ArrayList<>();
 
-        writeFavourite(context, "Stables Club");
-        writeFavourite(context, "Scholars Club");
-
         RestaurantController.getRestaurants(restaurants -> {
             for (Restaurant r : restaurants) {
                 if (favouritesStrings.contains(r.getBusinessName())) {

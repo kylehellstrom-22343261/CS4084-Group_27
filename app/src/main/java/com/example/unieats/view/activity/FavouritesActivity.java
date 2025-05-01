@@ -36,7 +36,7 @@ public class FavouritesActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //TODO wait for luke to create getFavouriteRestuarant method
+
         FavouritesController.getFavourites(context, restaurants -> {
             FavouritesAdapter adapter = new FavouritesAdapter(restaurants);
 
