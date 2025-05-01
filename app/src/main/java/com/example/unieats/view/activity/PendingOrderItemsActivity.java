@@ -14,6 +14,7 @@ import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
 import com.example.unieats.view.adapter.PendingOrderItemsAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PendingOrderItemsActivity extends AppCompatActivity {
@@ -35,8 +36,16 @@ public class PendingOrderItemsActivity extends AppCompatActivity {
             finish();
         });
 
-        List<Menu.MenuItem> items = OrderController.getPendingOrders().get(0).getMenuItems(); // Get MenuItem from Order
+        List<Menu.MenuItem> items = new ArrayList<>();
+        OrderController.getPendingOrders(orders -> {
+            items.addAll(orders.get(0).getMenuItems()); // Get MenuItem from Order
+        });
         PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
         recyclerView.setAdapter(adapter);
+
+
+//        List<Menu.MenuItem> items = OrderController.getPendingOrders().get(0).getMenuItems(); // Get MenuItem from Order
+//        PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
+//        recyclerView.setAdapter(adapter);
     }
 }
