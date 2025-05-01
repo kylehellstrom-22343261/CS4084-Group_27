@@ -35,6 +35,7 @@ import java.util.List;
 public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapter.OnBasketEmptyListener {
 
     private List<Menu.MenuItem> basketItems;
+    private TextView totalPriceText;
 
 //    public ConfirmOrderFragment() {
 //        // Required empty constructor
@@ -43,6 +44,12 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
     public ConfirmOrderFragment(List<Menu.MenuItem> basketItems) {
         this.basketItems = basketItems;
     }
+
+    private void onQuantityChanged() {
+        updateTotalPrice();
+    }
+
+
 
 //    public static ConfirmOrderFragment newInstance(List<Menu.MenuItem> basketItems) {
 //        ConfirmOrderFragment fragment = new ConfirmOrderFragment(basketItems);
@@ -69,9 +76,13 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
         Button confirmOrderButton = view.findViewById(R.id.confirm_order_button);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_confirm_order);
+        totalPriceText = view.findViewById(R.id.confirm_total_price);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext(), this);
+        ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(basketItems, getContext(), this, this::onQuantityChanged);
         recyclerView.setAdapter(adapter);
+
+        updateTotalPrice();
 
 
         OrderController orderController = new OrderController();
@@ -88,7 +99,8 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
 
         confirmOrderButton.setOnClickListener(v -> {
 
-            OrderConfirmedFragment orderConfirmedFragment = new OrderConfirmedFragment(filteredItems);
+            double totalAmount = BasketController.getInstance().getTotalPrice();
+            OrderConfirmedFragment orderConfirmedFragment = new OrderConfirmedFragment(filteredItems, totalAmount);
             Log.d("MenuFragment", "newInstance: " + BasketController.getInstance().getBasketItems().size());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -103,6 +115,21 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
         return view;
     }
 
+
+
+    private void updateTotalPrice() {
+        double total = BasketController.getInstance().getTotalPrice();
+        totalPriceText.setText(String.format("Total: €%.2f", total));
+
+        // Optional: animation like MenuFragment
+        totalPriceText.setScaleX(0.9f);
+        totalPriceText.setScaleY(0.9f);
+        totalPriceText.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(200)
+                .start();
+    }
     @Override
     public void onBasketEmpty() {
         // When the basket is empty, finish the activity (or fragment)

@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:padding="20dp">
 
+
     <!-- Header -->
     <TextView
         android:id="@+id/order_success_header"
@@ -55,6 +56,16 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/order_confirmed_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Total: €0.00" />
 
     <!-- Return Home Button -->
     <Button
