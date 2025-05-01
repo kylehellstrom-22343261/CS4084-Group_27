@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -111,6 +112,10 @@ public class MapFragment extends Fragment {
     }
 
     private void drawRoute() {
+//        if (BuildConfig.ORS_API_KEY == null || BuildConfig.ORS_API_KEY.isEmpty()) {
+//            Toast.makeText(getContext(), "Missing ORS API Key. Add it to local.properties", Toast.LENGTH_LONG).show();
+//            return;
+//        }
         myLocationOverlay.runOnFirstFix(() -> {
             GeoPoint start = myLocationOverlay.getMyLocation();
 
@@ -118,7 +123,10 @@ public class MapFragment extends Fragment {
                 new Thread(() -> {
                     HttpURLConnection conn = null;
                     try {
-                        String apiKey = BuildConfig.ORS_API_KEY;
+//                        String apiKey = BuildConfig.ORS_API_KEY;
+                        // I didnt want to do this but the api key is needed for it to draw...
+                        String apiKey = "5b3ce3597851110001cf6248448a61a28dc742978ec8b4e4b3039395";
+
                         String urlStr = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson";
                         URL url = new URL(urlStr);
                         conn = (HttpURLConnection) url.openConnection();
@@ -169,7 +177,7 @@ public class MapFragment extends Fragment {
                         // Convert to kilometers
                         distanceKm = distanceInMeters / 1000.0;
                         getActivity().runOnUiThread(() -> {
-                            routeDistanceTextView.setText(String.format("%.3f", distanceKm));
+                            routeDistanceTextView.setText(String.format("%.2f", distanceKm));
                         });
 
                         List<GeoPoint> geoPoints = new ArrayList<>();
