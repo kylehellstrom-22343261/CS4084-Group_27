@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.TextView;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,18 +21,12 @@ import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.ConfirmOrderAdapter;
 
-
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapter.OnBasketEmptyListener {
 
-    private List<Menu.MenuItem> basketItems;
+    private final List<Menu.MenuItem> basketItems;
     private TextView totalPriceText;
 
 //    public ConfirmOrderFragment() {
@@ -48,7 +40,6 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
     private void onQuantityChanged() {
         updateTotalPrice();
     }
-
 
 
 //    public static ConfirmOrderFragment newInstance(List<Menu.MenuItem> basketItems) {
@@ -116,7 +107,6 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
     }
 
 
-
     private void updateTotalPrice() {
         double total = BasketController.getInstance().getTotalPrice();
         totalPriceText.setText(String.format("Total: €%.2f", total));
@@ -130,6 +120,7 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
                 .setDuration(200)
                 .start();
     }
+
     @Override
     public void onBasketEmpty() {
         // When the basket is empty, finish the activity (or fragment)

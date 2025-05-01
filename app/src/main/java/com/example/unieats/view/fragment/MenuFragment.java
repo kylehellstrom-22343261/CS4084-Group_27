@@ -110,8 +110,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
         if (menuAdapter != null) {
             menuAdapter.notifyDataSetChanged();
         }
-        // TODO: fix when fault is found
-//        BasketController.getInstance().clearBasket();
+
         updateBasketButton();
     }
 
@@ -122,9 +121,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
     private void updateBasketButton() {
         int count = BasketController.getInstance().getTotalItemCount();
         double total = BasketController.getInstance().getTotalPrice();
-
-        basketButton.setText("Total: €"+total+"     \uf291 " + count);
-        basketButton.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+        basketButton.setText((String.format("Total: €%.0f", total) + String.format("   \uF291 %d", count)));        basketButton.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
 //        totalPrice.setText(String.format("Total: €%.2f", total));
 
         if (count > 0) {
