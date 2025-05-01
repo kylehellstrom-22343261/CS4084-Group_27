@@ -32,6 +32,8 @@
         <activity android:name=".view.activity.AboutUsActivity" />
         <activity android:name=".view.activity.PendingOrderActivity" />
         <activity android:name=".view.activity.BusinessLoginActivity" />
+        <activity android:name=".view.activity.BusinessActivity" />
+<!--        <activity android:name=".view.activity.BusinessDashboardActivity"/>-->
 
     </application>
 
