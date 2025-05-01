@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.BasketController;
+import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Menu;
+import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.ConfirmOrderAdapter;
 
 
@@ -72,6 +74,8 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
         recyclerView.setAdapter(adapter);
 
 
+        OrderController orderController = new OrderController();
+
         List<Menu.MenuItem> allItems = BasketController.getInstance().getBasketItems();
         List<Menu.MenuItem> filteredItems = new ArrayList<>();
 
@@ -93,12 +97,7 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
                     .commit();
 
             // Handle placing the order
-            FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
-
-            DatabaseReference dbRef = db.getReference("Order/data");
-
-            dbRef.push().setValue(basketItems);
-
+            orderController.makeOrder(new Order(basketItems, true));
         });
 
         return view;
