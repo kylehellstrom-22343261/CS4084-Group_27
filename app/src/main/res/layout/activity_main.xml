@@ -100,20 +100,26 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_weight="1"
 
+        />
 
         <Button
+            android:id="@+id/pending_order_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:text="Pending Order"
-            android:textColor="@color/black" />
-    </LinearLayout>
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/basket_button_bg"
+            android:foreground="@drawable/basket_button_fg"
+            android:contentDescription="Settings"
+            android:elevation="3dp"
+            android:stateListAnimator="@null"
+            android:text="View Pending Order"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
 </LinearLayout>

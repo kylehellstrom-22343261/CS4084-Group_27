@@ -1,24 +1,27 @@
 package com.example.unieats.view.fragment;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.unieats.R;
-import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.view.adapter.RestaurantAdapter;
+import com.example.unieats.model.Restaurant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RestaurantFragment extends Fragment {
     private RestaurantAdapter restaurantAdapter;
     private RecyclerView recyclerView;
+    private List<Restaurant> allRestaurants = new ArrayList<>();
 
     public RestaurantFragment() { }
 
@@ -30,7 +33,8 @@ public class RestaurantFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RestaurantController.getRestaurants(restaurants -> {
-            restaurantAdapter = new RestaurantAdapter(restaurants, restaurant -> {
+            allRestaurants = restaurants;
+            restaurantAdapter = new RestaurantAdapter(allRestaurants, restaurant -> {
                 // On restaurant click, open MenuFragment
                 Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
 
@@ -47,9 +51,25 @@ public class RestaurantFragment extends Fragment {
         return view;
     }
 
-    public void refreshRestaurants() {
-        if (restaurantAdapter != null) {
-            restaurantAdapter.notifyDataSetChanged();
+    public void filterRestaurants(String query) {
+        // Clear previous filtered list
+        List<Restaurant> filteredList = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            // Show all restaurants when query is empty
+            filteredList.addAll(allRestaurants);
+        } else {
+            // Filter restaurants based on current query
+            String lowerCaseQuery = query.toLowerCase();
+            for (Restaurant restaurant : allRestaurants) {
+                if (restaurant.getBusinessName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(restaurant);
+                }
+            }
         }
+
+        restaurantAdapter.updateData(filteredList);
     }
+
+
 }
