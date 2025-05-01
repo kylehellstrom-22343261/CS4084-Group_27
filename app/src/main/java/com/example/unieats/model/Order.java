@@ -3,8 +3,11 @@ package com.example.unieats.model;
 import com.google.firebase.Timestamp;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Order {
     private List<Menu.MenuItem> menuItems;
@@ -64,7 +67,14 @@ public class Order {
     }
 
     public String getOrderTime() {
-        return orderTime;
+        long seconds = Long.parseLong(orderTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
+
+        // Convert to Date
+        Date date = new Date(seconds * 1000L);
+
+        // Format the date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy, hh:mm a", Locale.getDefault());
+        return sdf.format(date);
     }
 
     public void setOrderTime(String orderTime) {
@@ -72,7 +82,14 @@ public class Order {
     }
 
     public String getCollectionTime() {
-        return collectionTime;
+        long seconds = Long.parseLong(collectionTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
+
+        // Convert to Date
+        Date date = new Date(seconds * 1000L);
+
+        // Format the date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy, hh:mm a", Locale.getDefault());
+        return sdf.format(date);
     }
 
     public void setCollectionTime(String collectionTime) {
