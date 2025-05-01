@@ -24,9 +24,11 @@ import java.util.List;
 public class OrderConfirmedFragment extends Fragment {
 
     private final List<Menu.MenuItem> basketItems;
+    private final double totalAmount;
 
-    public OrderConfirmedFragment(List<Menu.MenuItem> basketItems) {
+    public OrderConfirmedFragment(List<Menu.MenuItem> basketItems, double totalAmount) {
         this.basketItems = basketItems;
+        this.totalAmount =totalAmount;
     }
 
 //    public static OrderConfirmedFragment newInstance(List<Menu.MenuItem> basketItems) {
@@ -53,9 +55,13 @@ public class OrderConfirmedFragment extends Fragment {
         TextView orderSuccessHeader = view.findViewById(R.id.order_success_header);
         TextView orderID = view.findViewById(R.id.order_id_text);
         TextView collectionTime = view.findViewById(R.id.collection_time_text);
-        orderSuccessHeader.setText("temp");
-        orderID.setText("temp");
-        collectionTime.setText("temp");
+        TextView totalText = view.findViewById(R.id.order_confirmed_total);  // Make sure this ID exists in the layout XML
+
+//        orderSuccessHeader.setText("temp");
+//        orderID.setText("temp");
+//        collectionTime.setText("temp");
+        totalText.setText(String.format("Total: €%.2f", totalAmount));
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_confirm_order);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         OrderConfirmedAdapter adapter = new OrderConfirmedAdapter(basketItems, getContext());

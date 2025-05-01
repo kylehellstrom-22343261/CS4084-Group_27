@@ -25,16 +25,25 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final Context context;
     private OnBasketEmptyListener onBasketEmptyListener;
 
-    public ConfirmOrderAdapter(List<Menu.MenuItem> basketItems, Context context, OnBasketEmptyListener onBasketEmptyListener) {
+    private OnBasketChangedListener changeListener;
+
+
+    public ConfirmOrderAdapter(List<Menu.MenuItem> basketItems, Context context, OnBasketEmptyListener onBasketEmptyListener, OnBasketChangedListener listener) {
         this.basketItems = basketItems;
         this.context = context;
         this.onBasketEmptyListener = onBasketEmptyListener;
+        this.changeListener = listener;
     }
 
     // Define the listener interface
     public interface OnBasketEmptyListener {
         void onBasketEmpty();
     }
+
+    public interface OnBasketChangedListener {
+        void onQuantityChanged();
+    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -85,14 +94,25 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     ((ConfirmOrderViewHolder) holder).quantity.setText(String.valueOf(menuItem.getCount()));
                     notifyItemChanged(position);  // Refresh the item
                 }
+
+                if (changeListener != null) {
+                    changeListener.onQuantityChanged();
+                }
             });
+
+
 
             // Handle "Add" button click
             ((ConfirmOrderViewHolder) holder).addButton.setOnClickListener(v -> {
                 basketController.addItem(menuItem);
                 ((ConfirmOrderViewHolder) holder).quantity.setText(String.valueOf(menuItem.getCount()));
                 notifyItemChanged(position);  // Notify RecyclerView to refresh this item
+
+                if (changeListener != null) {
+                    changeListener.onQuantityChanged();
+                }
             });
+
         }
     }
 

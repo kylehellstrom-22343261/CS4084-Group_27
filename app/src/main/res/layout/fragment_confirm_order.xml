@@ -15,18 +15,28 @@
         android:layout_weight="1"
         android:paddingBottom="16dp"/>
 
+    <!-- Moved total price below items, centered -->
+    <TextView
+        android:id="@+id/confirm_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: €0.00"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal" />
+
     <Button
         android:id="@+id/confirm_order_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_marginTop="12dp"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/basket_button_bg"
         android:foreground="@drawable/basket_button_fg"
         android:elevation="8dp"
         android:text="Confirm Order"
         android:textColor="@color/green"
-        android:textSize="18sp"
-        android:visibility="visible" />
+        android:textSize="18sp" />
 
 </LinearLayout>
