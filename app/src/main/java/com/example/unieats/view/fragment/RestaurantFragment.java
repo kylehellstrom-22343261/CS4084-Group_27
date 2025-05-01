@@ -17,6 +17,8 @@ import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.view.adapter.RestaurantAdapter;
 
 public class RestaurantFragment extends Fragment {
+    private RestaurantAdapter restaurantAdapter;
+    private RecyclerView recyclerView;
 
     public RestaurantFragment() { }
 
@@ -24,11 +26,11 @@ public class RestaurantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.restaurant_recycler_view);
+        recyclerView = view.findViewById(R.id.restaurant_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RestaurantController.getRestaurants(restaurants -> {
-            RestaurantAdapter adapter = new RestaurantAdapter(restaurants, restaurant -> {
+            restaurantAdapter = new RestaurantAdapter(restaurants, restaurant -> {
                 // On restaurant click, open MenuFragment
                 Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
 
@@ -39,26 +41,15 @@ public class RestaurantFragment extends Fragment {
                         .commit();
             });
 
-            recyclerView.setAdapter(adapter);
+            recyclerView.setAdapter(restaurantAdapter);
         });
-//        Context context = getContext();
-//
-//        FavouritesController.getFavourites(context, restaurants -> {
-//            RestaurantAdapter adapter = new RestaurantAdapter(restaurants, restaurant -> {
-//                // On restaurant click, open MenuFragment
-//                Fragment menuFragment = MenuFragment.newInstance(restaurant.getBusinessName());
-//
-//                requireActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.fragment_container, menuFragment)
-//                        .addToBackStack(null)
-//                        .commit();
-//            });
-//
-//            recyclerView.setAdapter(adapter);
-//        });
 
         return view;
     }
 
+    public void refreshRestaurants() {
+        if (restaurantAdapter != null) {
+            restaurantAdapter.notifyDataSetChanged();
+        }
+    }
 }
