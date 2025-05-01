@@ -54,8 +54,9 @@ public class RestaurantFragment extends Fragment {
         Button pendingOrderButton = view.findViewById(R.id.pending_order_button);
         pendingOrderButton.setOnClickListener(v -> {
             // Start PendingOrderActivity
-            List<Order> orders = OrderController.getPendingOrders();
-            OrderController.getOrders(orders1 -> {
+            OrderController orderController = new OrderController();
+
+            orderController.getPendingOrders(orders1 -> {
                 if (orders1.isEmpty()) {
                     // Handle empty or null list
                     Log.d("OrderController", "No pending orders: " + orders1.size());

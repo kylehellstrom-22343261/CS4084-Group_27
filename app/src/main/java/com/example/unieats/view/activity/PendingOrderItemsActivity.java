@@ -10,21 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
-import com.example.unieats.model.Order;
+import com.example.unieats.model.Menu;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
+import com.example.unieats.view.adapter.PendingOrderItemsAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PendingOrderActivity extends AppCompatActivity {
+public class PendingOrderItemsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        setContentView(R.layout.activity_pending_order);
+        setContentView(R.layout.activity_pending_order_items);
 
-        RecyclerView recyclerView = findViewById(R.id.pending_order_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.pending_order_items_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Find the back button by ID
@@ -34,9 +36,16 @@ public class PendingOrderActivity extends AppCompatActivity {
             finish();
         });
 
-        OrderController.getPendingOrders(orders1 -> {
-            PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders1);
-            recyclerView.setAdapter(adapter);
+        List<Menu.MenuItem> items = new ArrayList<>();
+        OrderController.getPendingOrders(orders -> {
+            items.addAll(orders.get(0).getMenuItems()); // Get MenuItem from Order
         });
+        PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
+        recyclerView.setAdapter(adapter);
+
+
+//        List<Menu.MenuItem> items = OrderController.getPendingOrders().get(0).getMenuItems(); // Get MenuItem from Order
+//        PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
+//        recyclerView.setAdapter(adapter);
     }
 }

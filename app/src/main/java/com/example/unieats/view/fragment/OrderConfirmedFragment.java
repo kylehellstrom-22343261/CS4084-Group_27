@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.BasketController;
 import com.example.unieats.model.Menu;
 import com.example.unieats.view.activity.MainActivity;
 import com.example.unieats.view.adapter.OrderConfirmedAdapter;
@@ -69,6 +70,7 @@ public class OrderConfirmedFragment extends Fragment {
 
         Button finishOrder = view.findViewById(R.id.return_home_button);
         finishOrder.setOnClickListener(v -> {
+            BasketController.getInstance().clearBasket();
             Intent intent = new Intent(getActivity(), MainActivity.class); // replace HomeActivity with your home activity
             startActivity(intent);
             requireActivity().finish();

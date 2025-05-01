@@ -101,15 +101,24 @@ public class MainActivity extends AppCompatActivity {
                     ((RestaurantFragment) fragment).filterRestaurants(query);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+
 
         // Change Fragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new RestaurantFragment())
                 .commit();
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (currentFragment instanceof RestaurantFragment) {
+                searchBar.setVisibility(View.VISIBLE);
+            } else {
+                searchBar.setVisibility(View.GONE);
+            }
+        });
 
     }
 

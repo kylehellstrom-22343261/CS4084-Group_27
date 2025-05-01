@@ -1,6 +1,7 @@
 package com.example.unieats.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.model.Order;
+import com.example.unieats.view.activity.PendingOrderItemsActivity;
 
 import java.util.List;
 
@@ -42,7 +44,11 @@ public class PendingOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             vh.orderId.setText(String.valueOf(order.getOrderNumber()));
             vh.navButton.setOnClickListener(v -> {
                 // Handle navigation button click
-
+                Intent intent = new Intent(context, PendingOrderItemsActivity.class);
+                // Pass any necessary data to MapsActivity, e.g., order details or location
+//                intent.putExtra("businessName", order.getBusinessName()); // Example
+//                intent.putExtra("orderId", order.getOrderNumber());//example
+                context.startActivity(intent);
             });
         }
     }
