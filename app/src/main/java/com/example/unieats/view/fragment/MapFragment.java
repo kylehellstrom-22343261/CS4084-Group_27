@@ -43,6 +43,7 @@ public class MapFragment extends Fragment {
     private double aLongitude;
     private GeoPoint restaurantLocation;
     private MapView mapView;
+    private TextView routeDistanceTextView;
     public double distanceKm;
     private MyLocationNewOverlay myLocationOverlay;
     // The Pavilion: 52.67908912105616, -8.569674306021252
@@ -59,10 +60,12 @@ public class MapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        routeDistanceTextView = view.findViewById(R.id.route_distance);
         TextView restaurantNameTextView = view.findViewById(R.id.restaurant_name);
         restaurantNameTextView.setText(restaurantName);
-        // Get latitude and longitude
 
+
+        // Get latitude and longitude
         RestaurantController.getRestaurants(restaurants -> {
             for (Restaurant restaurant : restaurants) {
                 if (restaurant.getBusinessName().equals(restaurantName)) {
@@ -165,6 +168,9 @@ public class MapFragment extends Fragment {
 
                         // Convert to kilometers
                         distanceKm = distanceInMeters / 1000.0;
+                        getActivity().runOnUiThread(() -> {
+                            routeDistanceTextView.setText(String.format("%.3f", distanceKm));
+                        });
 
                         List<GeoPoint> geoPoints = new ArrayList<>();
                         for (int i = 0; i < coordinatesArray.length(); i++) {
