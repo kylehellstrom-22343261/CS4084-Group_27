@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.unieats.BuildConfig;
 import com.example.unieats.R;
+import com.example.unieats.controller.RestaurantController;
+import com.example.unieats.model.Restaurant;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,14 +38,19 @@ import java.util.List;
 
 public class MapFragment extends Fragment {
 
-    private final GeoPoint restaurantLocation = new GeoPoint(52.67908912105616, -8.569674306021252); // Example restaurant coordinates (e.g., NYC)
+    private String restaurantName;
+    private double aLatitiute;
+    private double aLongitude;
+    private GeoPoint restaurantLocation;
     private MapView mapView;
     public double distanceKm;
     private MyLocationNewOverlay myLocationOverlay;
     // The Pavilion: 52.67908912105616, -8.569674306021252
 
     // Empty Ctor
-    public MapFragment() {
+    public MapFragment(String restaurantName) {
+        this.restaurantName = restaurantName;
+
     }
 
     @Nullable
@@ -50,6 +59,29 @@ public class MapFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        TextView restaurantNameTextView = view.findViewById(R.id.restaurant_name);
+        restaurantNameTextView.setText(restaurantName);
+        // Get latitude and longitude
+
+        RestaurantController.getRestaurants(restaurants -> {
+            for (Restaurant restaurant : restaurants) {
+                if (restaurant.getBusinessName().equals(restaurantName)) {
+                    aLatitiute = restaurant.getLatitude();
+                    aLongitude = restaurant.getLongitude();
+                    break;
+                }
+            }
+                if(aLatitiute == 0 && aLongitude == 0){
+                    aLatitiute = restaurants.get(0).getLatitude();
+                    aLongitude = restaurants.get(0).getLongitude();
+                }
+            restaurantLocation = new GeoPoint(aLatitiute, aLongitude);
+            setUpMap(view);
+        });
+
+        return view;
+    }
+    private void setUpMap(View view) {
         mapView = view.findViewById(R.id.mapview);
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
@@ -73,8 +105,6 @@ public class MapFragment extends Fragment {
 
         // Draw a line between current location and restaurant
         drawRoute();
-
-        return view;
     }
 
     private void drawRoute() {
@@ -94,7 +124,7 @@ public class MapFragment extends Fragment {
                         conn.setRequestProperty("Content-Type", "application/json");
                         conn.setDoOutput(true);
 
-                        // Construct the JSON body properly
+                        // Construct the JSON body
                         JSONObject jsonBody = new JSONObject();
                         JSONArray coordinates = new JSONArray();
                         coordinates.put(new JSONArray().put(start.getLongitude()).put(start.getLatitude()));
@@ -147,7 +177,7 @@ public class MapFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             Polyline route = new Polyline();
                             route.setPoints(geoPoints);
-                            route.setColor(getResources().getColor(R.color.black)); // or Color.BLUE
+                            route.setColor(getResources().getColor(R.color.green));
                             route.setWidth(6f);
                             mapView.getOverlays().add(route);
                             mapView.zoomToBoundingBox(BoundingBox.fromGeoPointsSafe(geoPoints), true, 100);
