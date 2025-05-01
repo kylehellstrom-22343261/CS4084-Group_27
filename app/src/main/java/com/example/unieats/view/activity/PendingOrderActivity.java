@@ -12,10 +12,7 @@ import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
-import com.example.unieats.view.adapter.SettingsAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PendingOrderActivity extends AppCompatActivity {
