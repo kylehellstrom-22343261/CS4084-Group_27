@@ -5,6 +5,7 @@ import com.example.unieats.model.Order;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,17 +52,30 @@ OrderController {
         });
     }
 
-    public static List<Order> getPendingOrders() {
-        List<Order> result = new ArrayList<>();
+    public static void getPendingOrders(OrderCallback callback) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
 
-        getOrders(orders -> {
-            for (Order o : orders) {
-                if (o.isPending()) {
-                    result.add(o);
+        DatabaseReference dbRef = db.getReference("Order/data");
+
+        Query query = dbRef.orderByChild("pending").equalTo(true);
+
+        query.get().addOnCompleteListener(task -> {
+            List<Order> result = new ArrayList<>();
+
+            if (task.isSuccessful()) {
+                GenericTypeIndicator<HashMap<String, Order>> typeIndicator = new GenericTypeIndicator<HashMap<String, Order>>() {
+                };
+
+                HashMap<String, Order> firebaseResult = task.getResult().getValue(typeIndicator);
+
+                if (firebaseResult != null) {
+                    for (Map.Entry<String, Order> e : firebaseResult.entrySet()) {
+                        result.add(e.getValue());
+                    }
                 }
+
+                callback.onOrdersLoaded(result);
             }
         });
-
-        return result;
     }
 }
