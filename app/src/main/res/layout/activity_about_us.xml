@@ -16,16 +16,18 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:elevation="4dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/backButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_margin="16dp"
                     android:background="@drawable/reg_button_bg"
                     android:contentDescription="Back"
                     android:elevation="1dp"
@@ -40,14 +42,14 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    >
+                    android:layout_weight="1">
 
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/unieats_logo"
-                        android:layout_marginHorizontal="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="About Us"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
@@ -140,3 +142,5 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+
+
