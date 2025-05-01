@@ -19,8 +19,6 @@ public class PendingOrderActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        OrderController orderController = new OrderController();
-
         super.onCreate(savedInstanceState);
         View decor = getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -36,7 +34,7 @@ public class PendingOrderActivity extends AppCompatActivity {
             finish();
         });
 
-        orderController.getPendingOrders(orders1 -> {
+        OrderController.getPendingOrders(orders1 -> {
             PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders1);
             recyclerView.setAdapter(adapter);
         });
