@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
             // End the SettingsActivity
             finish();
         });
-        List<String> settingsOptions = Arrays.asList("About Us", "Setting 2", "Setting 3");
+        List<String> settingsOptions = Arrays.asList("About Us","Business Login");
         SettingsAdapter adapter = new SettingsAdapter(this, settingsOptions);
         recyclerView.setAdapter(adapter);
     }
