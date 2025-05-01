@@ -65,4 +65,13 @@ public class BasketController {
             }
         }
     }
+
+    public double getTotalPrice() {
+        if (allMenuItems == null) return 0.0;
+        double total = 0.0;
+        for (MenuItem item : allMenuItems) {
+            total += item.getPrice() * item.getCount();
+        }
+        return total;
+    }
 }
