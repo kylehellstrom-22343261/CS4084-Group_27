@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time of Order:" />
+                android:text="Time of Order: " />
             <TextView
                 android:id="@+id/time_of_order"
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Collection Time:" />
+                android:text="Collection Time: " />
             <TextView
                 android:id="@+id/collection_time"
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order ID:" />
+                android:text="Order ID: " />
             <TextView
                 android:id="@+id/order_id"
                 android:layout_width="wrap_content"
