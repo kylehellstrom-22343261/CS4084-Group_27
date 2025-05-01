@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Order;
-import com.example.unieats.view.adapter.OrderAdapter;
+//import com.example.unieats.view.adapter.OrderAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,10 @@ import java.util.List;
 public class BusinessDashboardFragment extends Fragment {
 
     private RecyclerView recentOrdersRecyclerView;
+
     private OrderAdapter orderAdapter;
     private OrderController orderController = new OrderController();
+
     private List<Order> orderList;
 
     public BusinessDashboardFragment() { }
@@ -33,11 +35,13 @@ public class BusinessDashboardFragment extends Fragment {
         recentOrdersRecyclerView = view.findViewById(R.id.recentOrdersRecyclerView);
         recentOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Fake data for now - replace with real data fetch later
+        orderList = new ArrayList<>();
+
         orderController.getOrders(orders -> {
             orderAdapter = new OrderAdapter(orders);
             recentOrdersRecyclerView.setAdapter(orderAdapter);
         });
+
 
 //        orderAdapter = new OrderAdapter(orderList);
 //        recentOrdersRecyclerView.setAdapter(orderAdapter);
