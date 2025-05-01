@@ -102,7 +102,7 @@ public class MapFragment extends Fragment {
 
         // Set up the restaurant location marker
         Marker restaurantMarker = new Marker(mapView);
-        restaurantMarker.setTitle("The Pavilion"); //TODO: Change Automatically
+        restaurantMarker.setTitle(restaurantName);
         restaurantMarker.setPosition(restaurantLocation);
 //        restaurantMarker.setIcon(getResources().getDrawable(R.drawable.restaurant_marker)); // Add marker image
         mapView.getOverlays().add(restaurantMarker);

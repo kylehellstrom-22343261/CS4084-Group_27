@@ -1,12 +1,10 @@
 package com.example.unieats.view.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,7 +61,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_RESTAURANT_HEADER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_header, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_restaurant_header, parent, false);
             return new RestaurantHeaderViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header, parent, false);

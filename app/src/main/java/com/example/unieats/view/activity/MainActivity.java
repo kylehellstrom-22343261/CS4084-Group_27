@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -30,14 +34,11 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
     public static Set<String> favouriteRestaurants = new HashSet<>();
     public static List<Restaurant> allRestaurants = new ArrayList<>();
-
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-
+    private EditText searchBar;
     private void requestPermissionsIfNecessary(String[] permissions) {
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS_REQUEST_CODE);
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, 1);
                 return;
             }
         }
@@ -66,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new RestaurantFragment())
-                .commit();
-
         // Find the favourites button by ID
         Button favouritesButton = findViewById(R.id.favouritesButton);
         // Set click listener for the favourites button
@@ -81,21 +78,39 @@ public class MainActivity extends AppCompatActivity {
 
         // Find the settings button by ID
         Button settingsButton = findViewById(R.id.settingsButton);
-        // Set click listener for the settings button
         settingsButton.setOnClickListener(v -> {
             // Start the SettingsActivity
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
+
+        // Handle search query changes
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Get the current query from the search bar
+                String query = charSequence.toString();
+
+                // Send the query to the fragment to filter restaurants
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (fragment instanceof RestaurantFragment) {
+                    ((RestaurantFragment) fragment).filterRestaurants(query);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // Change Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new RestaurantFragment())
+                .commit();
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment instanceof RestaurantFragment) {
-            ((RestaurantFragment) fragment).refreshRestaurants();
-        }
-    }
 }
