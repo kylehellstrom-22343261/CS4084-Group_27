@@ -79,13 +79,13 @@ public class BusinessActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment instanceof RestaurantFragment) {
-            ((RestaurantFragment) fragment).refreshRestaurants();
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if (fragment instanceof RestaurantFragment) {
+//            ((RestaurantFragment) fragment).refreshRestaurants();
+//        }
+//    }
 }
