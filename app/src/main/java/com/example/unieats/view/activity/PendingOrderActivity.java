@@ -34,8 +34,8 @@ public class PendingOrderActivity extends AppCompatActivity {
             finish();
         });
 
-        OrderController.getPendingOrders(orders1 -> {
-            PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders1);
+        OrderController.getPendingOrders(orders -> {
+            PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders);
             recyclerView.setAdapter(adapter);
         });
     }

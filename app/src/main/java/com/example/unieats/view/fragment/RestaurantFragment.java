@@ -52,14 +52,21 @@ public class RestaurantFragment extends Fragment {
         });
 
         Button pendingOrderButton = view.findViewById(R.id.pending_order_button);
+        OrderController.getPendingOrders(orders -> {
+            if (orders.isEmpty()) {
+                pendingOrderButton.setVisibility(View.GONE);
+            } else {
+                pendingOrderButton.setVisibility(View.VISIBLE);
+            }
+        });
         pendingOrderButton.setOnClickListener(v -> {
             // Start PendingOrderActivity
             OrderController orderController = new OrderController();
 
-            orderController.getPendingOrders(orders1 -> {
-                if (orders1.isEmpty()) {
+            orderController.getPendingOrders(orders -> {
+                if (orders.isEmpty()) {
                     // Handle empty or null list
-                    Log.d("OrderController", "No pending orders: " + orders1.size());
+                    Log.d("OrderController", "No pending orders: " + orders.size());
                     Toast.makeText(requireContext(), "No pending orders", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(requireActivity(), PendingOrderActivity.class);

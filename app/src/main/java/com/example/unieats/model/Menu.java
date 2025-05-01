@@ -2,8 +2,10 @@ package com.example.unieats.model;
 
 import com.example.unieats.R;
 
+import java.io.Serializable;
+
 public class Menu {
-    public static class MenuItem {
+    public static class MenuItem implements Serializable {
         private final String businessName;
         private final String name;
         private final String description;
