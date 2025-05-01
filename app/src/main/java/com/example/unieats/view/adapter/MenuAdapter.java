@@ -100,6 +100,8 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Menu.MenuItem menuItem = items.get(position - 2);
             MenuViewHolder vh = (MenuViewHolder) holder;
 
+
+
             vh.name.setText(menuItem.getName());
             vh.description.setText(menuItem.getDescription());
             vh.price.setText(String.format("$%.2f", menuItem.getPrice()));
@@ -164,6 +166,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             addButton = view.findViewById(R.id.menu_item_add_button);
             removeButton = view.findViewById(R.id.menu_item_remove_button);
             itemCountText = view.findViewById(R.id.menu_item_count);
+
         }
     }
 }

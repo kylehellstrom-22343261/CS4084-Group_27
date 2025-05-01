@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,8 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
     private Button basketButton;
     private ImageView menuHeaderImage;
     private MenuAdapter menuAdapter;
+
+    private TextView totalPrice;
 
     public static MenuFragment newInstance(String businessName) {
         MenuFragment fragment = new MenuFragment();
@@ -71,11 +75,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
             menuAdapter = new MenuAdapter(menu, this, getContext());
             recyclerView.setAdapter(menuAdapter);
         });
+//        totalPrice = view.findViewById(R.id.total_price_text);
 
         basketButton = view.findViewById(R.id.basketButton);
         basketButton.setOnClickListener(v -> {
             List<Menu.MenuItem> allItems = BasketController.getInstance().getBasketItems();
             List<Menu.MenuItem> filteredItems = new ArrayList<>();
+            double total = BasketController.getInstance().getTotalPrice();
+//            totalPrice.setText(String.format("Total: €%.2f", total));
+
 
             for (Menu.MenuItem item : allItems) {
                 if (item.getCount() > 0) {
@@ -113,8 +121,12 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
 
     private void updateBasketButton() {
         int count = BasketController.getInstance().getTotalItemCount();
-        basketButton.setText("\uf291 " + count);
+        double total = BasketController.getInstance().getTotalPrice();
+
+        basketButton.setText("Total: €"+total+"     \uf291 " + count);
         basketButton.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+//        totalPrice.setText(String.format("Total: €%.2f", total));
+
         if (count > 0) {
             basketButton.animate()
                     .scaleX(1.05f)
