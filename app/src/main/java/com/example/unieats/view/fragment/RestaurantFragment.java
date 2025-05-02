@@ -100,5 +100,13 @@ public class RestaurantFragment extends Fragment {
         restaurantAdapter.updateData(filteredList);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        RestaurantController.getRestaurants(restaurants -> {
+            allRestaurants = restaurants;
+            restaurantAdapter.updateData(allRestaurants); // refresh UI
+        });
+    }
 
 }

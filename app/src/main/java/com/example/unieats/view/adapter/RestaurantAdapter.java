@@ -74,7 +74,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
             RestaurantViewHolder vh = (RestaurantViewHolder) holder;
 
-            FavouritesController favouritesController = new FavouritesController();
+//            FavouritesController favouritesController = new FavouritesController();
 
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());
@@ -122,10 +122,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onRestaurantClick(Restaurant restaurant);
     }
 
-    public void updateData(List<Restaurant> newList) {
-        this.restaurantList = newList;
-        notifyDataSetChanged(); // Refresh the RecyclerView
-
+    public void updateData(List<Restaurant> newRestaurants) {
+        restaurantList.clear();
+        restaurantList.addAll(newRestaurants);
+        restaurantList.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
+        notifyDataSetChanged();
     }
 
 

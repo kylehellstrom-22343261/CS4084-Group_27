@@ -16,6 +16,7 @@ import com.example.unieats.controller.FavouritesController;
 import com.example.unieats.model.Favourites;
 import com.example.unieats.model.Restaurant;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -28,18 +29,20 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_RESTAURANT = 1;
     private static final String HEADER_TEXT = "Favourite Restaurants";
 
-    private final List<Restaurant> restaurantList;
-   // private final OnRestaurantClickListener listener;
+    private final List<Restaurant> restaurantList = new ArrayList<>();
+    private final OnRestaurantClickListener listener;
 
-    public FavouritesAdapter(
-            List<Restaurant> restaurants
-    //        OnRestaurantClickListener listener
-    )
-    {
-        restaurants.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
-        this.restaurantList = restaurants;
+    public FavouritesAdapter(List<Restaurant> restaurants, OnRestaurantClickListener listener) {
+        updateData(restaurants);
+        this.listener = listener;
+    }
 
-       // this.listener = listener;
+
+    public void updateData(List<Restaurant> newRestaurants) {
+        restaurantList.clear();
+        restaurantList.addAll(newRestaurants);
+        restaurantList.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
+        notifyDataSetChanged();
     }
 
     @Override
@@ -69,8 +72,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
-            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            headerViewHolder.headerTitle.setText(HEADER_TEXT);
+            ((HeaderViewHolder) holder).headerTitle.setText(HEADER_TEXT);
         } else if (holder instanceof RestaurantViewHolder) {
             Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
             RestaurantViewHolder vh = (RestaurantViewHolder) holder;
@@ -98,7 +100,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
             vh.heart.setText("\uf004"); // Unicode heart
-//            boolean isFavourited = Favourites.getInstance().isFavourite(restaurant);
             boolean isFavourited = FavouritesController.isFavourite(context, restaurant.getBusinessName());
             int heartColor = ContextCompat.getColor(context, isFavourited ? android.R.color.holo_red_dark : android.R.color.darker_gray);
             vh.heart.setTextColor(heartColor);
@@ -107,22 +108,21 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (isFavourited) {
                     FavouritesController.removeFavourite(context, restaurant.getBusinessName());
                 } else {
-//                    Favourites.getInstance().addFavourite(restaurant);
                     FavouritesController.writeFavourite(context, restaurant.getBusinessName());
                 }
                 notifyItemChanged(position);
             });
 
 
-//            vh.itemView.setOnClickListener(v -> {
-//                if (listener != null) listener.onRestaurantClick(restaurant);
-//            });
+            vh.itemView.setOnClickListener(v -> {
+                if (listener != null) listener.onRestaurantClick(restaurant);
+            });
         }
     }
 
-//    public interface OnRestaurantClickListener {
-//        void onRestaurantClick(Restaurant restaurant);
-//    }
+    public interface OnRestaurantClickListener {
+        void onRestaurantClick(Restaurant restaurant);
+    }
 
     /* ViewHolders */
 

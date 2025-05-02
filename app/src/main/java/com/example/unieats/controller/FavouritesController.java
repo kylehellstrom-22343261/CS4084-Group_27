@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FavouritesController {
-    private static String favouritesFileName = "favourites.dsv";
+    private static final String favouritesFileName = "favourites.dsv";
 
     public interface FavouritesCallback {
         void onFavouritesLoaded(List<Restaurant> favourites);
