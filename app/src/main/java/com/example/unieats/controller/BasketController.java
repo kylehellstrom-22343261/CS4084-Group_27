@@ -59,11 +59,7 @@ public class BasketController {
     }
 
     public void clearBasket() {
-        if (allMenuItems != null) {
-            for (MenuItem item : allMenuItems) {
-                item.setCount(0);
-            }
-        }
+        allMenuItems.clear();
     }
 
     public double getTotalPrice() {

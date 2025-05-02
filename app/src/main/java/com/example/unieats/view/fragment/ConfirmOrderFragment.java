@@ -42,23 +42,6 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
     }
 
 
-//    public static ConfirmOrderFragment newInstance(List<Menu.MenuItem> basketItems) {
-//        ConfirmOrderFragment fragment = new ConfirmOrderFragment(basketItems);
-//        Bundle args = new Bundle();
-//        args.putSerializable("basketItems", new ArrayList<>(basketItems)); // safely cast to ArrayList
-//        fragment.setArguments(args);
-//        Log.d("MenuFragment", "newInstance: " + BasketController.getInstance().getBasketItems().size());
-//        return fragment;
-//    }
-
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            basketItems = (ArrayList<Menu.MenuItem>) getArguments().getSerializable("basketItems");
-//        }
-//    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +57,6 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
         recyclerView.setAdapter(adapter);
 
         updateTotalPrice();
-
 
         OrderController orderController = new OrderController();
 
@@ -93,6 +75,10 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
             double totalAmount = BasketController.getInstance().getTotalPrice();
             OrderConfirmedFragment orderConfirmedFragment = new OrderConfirmedFragment(filteredItems, totalAmount);
             Log.d("MenuFragment", "newInstance: " + BasketController.getInstance().getBasketItems().size());
+            // Clear all fragments from the back stack
+            requireActivity().getSupportFragmentManager().popBackStack(null,
+                    androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, orderConfirmedFragment)
