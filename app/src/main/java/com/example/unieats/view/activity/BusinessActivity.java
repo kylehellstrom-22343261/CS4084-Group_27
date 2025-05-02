@@ -85,4 +85,9 @@ public class BusinessActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
