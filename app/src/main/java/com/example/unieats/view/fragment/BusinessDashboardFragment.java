@@ -42,7 +42,6 @@ public class BusinessDashboardFragment extends Fragment {
             recentOrdersRecyclerView.setAdapter(orderAdapter);
         });
 
-
 //        orderAdapter = new OrderAdapter(orderList);
 //        recentOrdersRecyclerView.setAdapter(orderAdapter);
 
