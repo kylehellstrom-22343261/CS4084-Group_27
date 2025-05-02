@@ -59,7 +59,7 @@ public class BasketController {
     }
 
     public void clearBasket() {
-        allMenuItems.clear();
+        allMenuItems = null;
     }
 
     public double getTotalPrice() {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.BasketController;
 import com.example.unieats.controller.OrderController;
 import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.model.Order;
@@ -108,6 +109,12 @@ public class RestaurantFragment extends Fragment {
             allRestaurants = restaurants;
             restaurantAdapter.updateData(allRestaurants); // refresh UI
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        BasketController.getInstance().clearBasket();
     }
 
 }
