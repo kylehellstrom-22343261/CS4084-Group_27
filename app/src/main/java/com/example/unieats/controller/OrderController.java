@@ -2,7 +2,6 @@ package com.example.unieats.controller;
 
 import android.content.Context;
 
-import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -12,29 +11,31 @@ import com.google.firebase.database.Query;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class
 OrderController {
-    private static final String orderHistoryFileName = "order_history.dsv";
+    private static final String localPendingOrdersFile = "pending_orders.dsv";
 
     public interface OrderCallback {
         void onOrdersLoaded(List<Order> orders);
     }
 
-    public void makeOrder(Order order) {
+    public void makeOrder(Context context, Order order) {
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
 
         DatabaseReference dbRef = db.getReference("Order/data");
 
         dbRef.push().setValue(order);
+
+        writeLocalPendingOrders(context, order.getOrderNumber());
     }
 
     public static void getOrders(OrderCallback callback) {
@@ -161,14 +162,51 @@ OrderController {
         });
     }
 
-    public static void writeOrderHistory(Context context, int orderNumber) {
-        ArrayList<Integer> currentHistory = readOrderHistory(context);
+    public static void writeLocalPendingOrders(Context context, int orderNumber) {
+        ArrayList<Integer> currentPendingOrders = readLocalPendingOrders(context);
+
+        String outputString = "";
+
+        for (int i : currentPendingOrders) {
+            outputString += i + "\n";
+        }
+
+        try (FileOutputStream fos = context.openFileOutput(localPendingOrdersFile, Context.MODE_PRIVATE)) {
+            if (!currentPendingOrders.contains(orderNumber)) {
+                outputString += orderNumber + "\n";
+            }
+
+            fos.write(outputString.getBytes());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private static ArrayList<Integer> readOrderHistory(Context context) {
+    public static void removeLocalPendingOrder(Context context, Integer orderNumber) {
+        ArrayList<Integer> currentPendingOrders = readLocalPendingOrders(context);
+        currentPendingOrders.remove(orderNumber);
+
+        String outputString = "";
+
+        for (int i : currentPendingOrders) {
+            outputString += i + "\n";
+        }
+
+        try (FileOutputStream fos = context.openFileOutput(localPendingOrdersFile, Context.MODE_PRIVATE)) {
+            if (!currentPendingOrders.contains(orderNumber)) {
+                outputString += orderNumber + "\n";
+            }
+
+            fos.write(outputString.getBytes());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ArrayList<Integer> readLocalPendingOrders(Context context) {
         ArrayList<Integer> result = new ArrayList<>();
 
-        try (FileInputStream fis = context.openFileInput(orderHistoryFileName)) {
+        try (FileInputStream fis = context.openFileInput(localPendingOrdersFile)) {
             InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
 
             try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
@@ -179,6 +217,8 @@ OrderController {
                     line = reader.readLine();
                 }
             }
+        } catch (FileNotFoundException e) {
+            return result;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

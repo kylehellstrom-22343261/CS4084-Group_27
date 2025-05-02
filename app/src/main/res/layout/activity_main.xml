@@ -91,7 +91,7 @@
                 android:textColor="@color/grey"
                 android:background="@drawable/search_bar_bg"
                 android:drawableStart="@android:drawable/ic_menu_search"
-                android:hint=" Search Restaurants &amp; Items. . ."
+                android:hint= " Search Restaurants "
                 android:paddingHorizontal="6dp"
                 android:paddingTop="7dp"
                 android:paddingBottom="5dp" />

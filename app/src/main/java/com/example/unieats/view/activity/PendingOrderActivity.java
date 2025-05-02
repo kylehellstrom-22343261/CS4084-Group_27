@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
+import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
+
+import java.util.ArrayList;
 
 public class PendingOrderActivity extends AppCompatActivity {
 
@@ -31,8 +34,20 @@ public class PendingOrderActivity extends AppCompatActivity {
             finish();
         });
 
-        OrderController.getPendingOrders(orders -> {
-            PendingOrderAdapter adapter = new PendingOrderAdapter(this, orders);
+        OrderController.getOrders(orders -> {
+            ArrayList<Order> localPendingOrders = new ArrayList<>();
+
+            for (Order o : orders) {
+                if (OrderController.readLocalPendingOrders(getApplicationContext()).contains(o.getOrderNumber())) {
+                    if (o.isPending()) {
+                        localPendingOrders.add(o);
+                    } else {
+                        OrderController.removeLocalPendingOrder(getApplicationContext(), o.getOrderNumber());
+                    }
+                }
+            }
+
+            PendingOrderAdapter adapter = new PendingOrderAdapter(this, localPendingOrders);
             recyclerView.setAdapter(adapter);
         });
     }
