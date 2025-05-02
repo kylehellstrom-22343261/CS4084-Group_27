@@ -98,7 +98,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .getIdentifier(restaurant.getImage(), "drawable", holder.itemView.getContext().getPackageName()));
 
             vh.heart.setText("\uf004"); // Unicode heart
-//            boolean isFavourited = Favourites.getInstance().isFavourite(restaurant);
             boolean isFavourited = FavouritesController.isFavourite(context, restaurant.getBusinessName());
             int heartColor = ContextCompat.getColor(context, isFavourited ? android.R.color.holo_red_dark : android.R.color.darker_gray);
             vh.heart.setTextColor(heartColor);

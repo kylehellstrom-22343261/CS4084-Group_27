@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 // Get the current query from the search bar
-                String query = charSequence.toString();
+                String query = charSequence.toString().trim();
 
                 // Send the query to the fragment to filter restaurants
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -120,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 }

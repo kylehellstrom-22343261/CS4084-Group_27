@@ -67,14 +67,16 @@ public class Order {
     }
 
     public String getOrderTime() {
-        long seconds = Long.parseLong(orderTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
+        try {
+            long seconds = Long.parseLong(orderTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
 
-        // Convert to Date
-        Date date = new Date(seconds * 1000L);
+            Date date = new Date(seconds * 1000L);
 
-        // Format the date
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy, hh:mm a", Locale.getDefault());
-        return sdf.format(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+            return sdf.format(date);
+        } catch (Exception e) {
+            return orderTime;
+        }
     }
 
     public void setOrderTime(String orderTime) {
@@ -82,14 +84,16 @@ public class Order {
     }
 
     public String getCollectionTime() {
-        long seconds = Long.parseLong(collectionTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
+        try {
+            long seconds = Long.parseLong(collectionTime.replaceAll(".*seconds=(\\d+),.*", "$1"));
 
-        // Convert to Date
-        Date date = new Date(seconds * 1000L);
+            Date date = new Date(seconds * 1000L);
 
-        // Format the date
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy, hh:mm a", Locale.getDefault());
-        return sdf.format(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+            return sdf.format(date);
+        } catch (Exception e) {
+            return collectionTime; // fallback if parsing fails
+        }
     }
 
     public void setCollectionTime(String collectionTime) {

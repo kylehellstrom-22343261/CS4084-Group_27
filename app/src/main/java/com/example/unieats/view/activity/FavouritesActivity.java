@@ -27,12 +27,6 @@ public class FavouritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favourites);
         Context context = getApplicationContext();
 
-//        // Load the FavouritesFragment into this activity
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.favourites_container, new FavouritesFragment());
-//        transaction.commit();
-
         RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -45,5 +39,11 @@ public class FavouritesActivity extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }
