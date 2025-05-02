@@ -2,6 +2,7 @@ package com.example.unieats.controller;
 
 import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -52,6 +53,31 @@ OrderController {
         });
     }
 
+    public static void getOrders(String businessName, OrderCallback callback) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+
+        DatabaseReference dbRef = db.getReference("Order/data");
+
+        dbRef.orderByChild("businessName").equalTo(businessName).get().addOnCompleteListener(task -> {
+            List<Order> result = new ArrayList<>();
+
+            if (task.isSuccessful()) {
+                GenericTypeIndicator<HashMap<String, Order>> typeIndicator = new GenericTypeIndicator<HashMap<String, Order>>() {
+                };
+
+                HashMap<String, Order> firebaseResult = task.getResult().getValue(typeIndicator);
+
+                if (firebaseResult != null) {
+                    for (Map.Entry<String, Order> e : firebaseResult.entrySet()) {
+                        result.add(e.getValue());
+                    }
+                }
+
+                callback.onOrdersLoaded(result);
+            }
+        });
+    }
+
     public static void getPendingOrders(OrderCallback callback) {
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
 
@@ -75,6 +101,26 @@ OrderController {
                 }
 
                 callback.onOrdersLoaded(result);
+            }
+        });
+    }
+
+    public static void updateOrderStatus(String orderNumber, boolean isPending) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+        DatabaseReference dbRef = db.getReference("Order/data");
+
+        dbRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                // Convert the orderNumber (String) to an int
+                int targetOrderNumber = Integer.parseInt(orderNumber);
+
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    Order order = snapshot.getValue(Order.class);
+                    if (order != null && order.getOrderNumber() == targetOrderNumber) {
+                        snapshot.getRef().child("pending").setValue(isPending);
+                        break;
+                    }
+                }
             }
         });
     }

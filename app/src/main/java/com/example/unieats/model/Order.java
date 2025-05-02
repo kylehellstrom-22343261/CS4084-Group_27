@@ -19,7 +19,7 @@ public class Order {
 
     public Order() {
         this.menuItems = new ArrayList<>();
-        this.pending = false;
+        this.pending = true;
         this.orderNumber = 0;
         this.orderTime = Timestamp.now().toString();
         this.collectionTime = Timestamp.now().toString();
@@ -92,7 +92,7 @@ public class Order {
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
             return sdf.format(date);
         } catch (Exception e) {
-            return collectionTime; // fallback if parsing fails
+            return collectionTime;
         }
     }
 

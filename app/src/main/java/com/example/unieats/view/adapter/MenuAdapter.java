@@ -102,7 +102,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             vh.name.setText(menuItem.getName());
             vh.description.setText(menuItem.getDescription());
-            vh.price.setText(String.format("$%.2f", menuItem.getPrice()));
+            vh.price.setText(String.format("€%.2f", menuItem.getPrice()));
 
             int count = menuItem.getCount();
             vh.itemCountText.setText(String.valueOf(count));
