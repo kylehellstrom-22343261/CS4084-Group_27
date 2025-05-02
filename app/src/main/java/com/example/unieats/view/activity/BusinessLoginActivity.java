@@ -1,5 +1,6 @@
 package com.example.unieats.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,8 +61,11 @@ public class BusinessLoginActivity extends AppCompatActivity {
                     }
 
                     if (correctLogin.get()) {
-                        // TODO: Redirect to dashboard
-                        Toast.makeText(this, "Login correct!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this, "Login correct!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(BusinessLoginActivity.this, BusinessActivity.class);
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
                     }

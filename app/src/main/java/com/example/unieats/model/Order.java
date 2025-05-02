@@ -16,7 +16,7 @@ public class Order {
 
     public Order() {
         this.menuItems = new ArrayList<>();
-        this.pending = false;
+        this.pending = true;
         this.orderNumber = 0;
         this.orderTime = Timestamp.now().toString();
         this.collectionTime = Timestamp.now().toString();

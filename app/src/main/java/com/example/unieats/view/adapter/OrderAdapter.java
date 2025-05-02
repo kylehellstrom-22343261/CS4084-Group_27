@@ -31,10 +31,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orderList.get(position);
-        holder.orderIdTextView.setText("Order ID: " + order.getOrderNumber());
-        holder.orderDetailsTextView.setText(order.getMenuItems().toString());
-        holder.orderTimeTextView.setText(order.getOrderTime().toString());
-        holder.orderStatusTextView.setText(order.isPending() ? "Pending" : "Complete");
+        if(order != null) {
+            holder.orderIdTextView.setText("Order ID: " + order.getOrderNumber());
+            holder.orderDetailsTextView.setText(order.getMenuItems().toString());
+            holder.orderTimeTextView.setText(order.getOrderTime().toString());
+            holder.orderStatusTextView.setText(order.isPending() ? "Pending" : "Complete");
+        }
     }
 
     @Override
