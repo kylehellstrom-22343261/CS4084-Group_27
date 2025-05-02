@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.BusinessUserController;
 import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.OrderAdapter;
@@ -26,7 +28,11 @@ public class BusinessDashboardFragment extends Fragment {
 
     private List<Order> orderList;
 
-    public BusinessDashboardFragment() { }
+    private String email;
+
+    public BusinessDashboardFragment(String email) {
+        this.email = email;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,9 +43,25 @@ public class BusinessDashboardFragment extends Fragment {
 
         orderList = new ArrayList<>();
 
-        OrderController.getOrders(orders -> {
-            OrderAdapter orderAdapter = new OrderAdapter(orders);
-            recentOrdersRecyclerView.setAdapter(orderAdapter);
+//        email = "stablesclub@ul.ie";
+
+//        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+        BusinessUserController businessUserController = new BusinessUserController();
+
+        businessUserController.getBusinessUsers(email, businessUsers -> {
+//            Toast.makeText(getContext(), businessUsers.get(0).getBusinessName(), Toast.LENGTH_SHORT).show();
+
+            OrderController.getOrders(businessUsers.get(0).getBusinessName(), orders -> {
+                ArrayList<Order> pendingOrders = new ArrayList<>();
+                for(Order o : orders) {
+                    if(o.isPending()) {
+                        pendingOrders.add(o);
+                    }
+                }
+//                Toast.makeText(getContext(), pendingOrders.get(0).getMenuItems().get(0).getName(), Toast.LENGTH_SHORT).show();
+                OrderAdapter orderAdapter = new OrderAdapter(pendingOrders);
+                recentOrdersRecyclerView.setAdapter(orderAdapter);
+            });
         });
 
 //        orderAdapter = new OrderAdapter(orderList);

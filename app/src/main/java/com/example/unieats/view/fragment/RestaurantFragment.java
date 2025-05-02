@@ -52,6 +52,7 @@ public class RestaurantFragment extends Fragment {
         });
 
         Button pendingOrderButton = view.findViewById(R.id.pending_order_button);
+        // TODO: Change method to get only user pending orders
         OrderController.getPendingOrders(orders -> {
             if (orders.isEmpty()) {
                 pendingOrderButton.setVisibility(View.GONE);
@@ -100,5 +101,13 @@ public class RestaurantFragment extends Fragment {
         restaurantAdapter.updateData(filteredList);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        RestaurantController.getRestaurants(restaurants -> {
+            allRestaurants = restaurants;
+            restaurantAdapter.updateData(allRestaurants); // refresh UI
+        });
+    }
 
 }

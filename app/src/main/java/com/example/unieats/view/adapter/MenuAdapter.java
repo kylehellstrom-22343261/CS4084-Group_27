@@ -1,6 +1,7 @@
 package com.example.unieats.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,10 +79,23 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Menu.MenuItem restaurantInfo = items.get(0);
             RestaurantHeaderViewHolder vh = (RestaurantHeaderViewHolder) holder;
             vh.restaurantName.setText(restaurantInfo.getBusinessName());
-            vh.restaurantDistance.setText("1.2 km away");
+
+            // Calculate average price
+            double totalPrice = 0;
+            int validItemCount = 0;
+            for (Menu.MenuItem item : items) {
+                if (item.getPrice() > 0) {
+                    totalPrice += item.getPrice();
+                    validItemCount++;
+                }
+            }
+            double averagePrice = validItemCount > 0 ? totalPrice / validItemCount : 0;
+
             vh.costIcon1.setVisibility(View.VISIBLE);
-            vh.costIcon2.setVisibility(View.VISIBLE);
-            vh.costIcon3.setVisibility(View.GONE);
+            vh.costIcon2.setVisibility(averagePrice > 5 ? View.VISIBLE: View.GONE);
+            vh.costIcon3.setVisibility(averagePrice > 10 ? View.VISIBLE: View.GONE);
+
+
 
             vh.mapButton.setOnClickListener(v -> {
                 if (context instanceof AppCompatActivity) {
@@ -131,13 +145,12 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /* ViewHolders */
 
     static class RestaurantHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView restaurantName, restaurantDistance, costIcon1, costIcon2, costIcon3;
+        TextView restaurantName, costIcon1, costIcon2, costIcon3;
         Button mapButton;
 
         public RestaurantHeaderViewHolder(View view) {
             super(view);
             restaurantName = view.findViewById(R.id.restaurant_name);
-            restaurantDistance = view.findViewById(R.id.restaurant_distance);
             costIcon1 = view.findViewById(R.id.cost_icon_1);
             costIcon2 = view.findViewById(R.id.cost_icon_2);
             costIcon3 = view.findViewById(R.id.cost_icon_3);

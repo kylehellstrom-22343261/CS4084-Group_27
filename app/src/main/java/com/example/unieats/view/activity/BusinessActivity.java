@@ -73,7 +73,7 @@ public class BusinessActivity extends AppCompatActivity {
 //        }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new BusinessDashboardFragment())
+                .replace(R.id.fragment_container, new BusinessDashboardFragment(email))
                 .commit();
 
         // Find the settings button by ID
@@ -84,5 +84,10 @@ public class BusinessActivity extends AppCompatActivity {
             Intent intent = new Intent(BusinessActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

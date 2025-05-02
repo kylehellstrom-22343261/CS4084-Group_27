@@ -39,15 +39,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <!-- Distance -->
-                <TextView
-                    android:id="@+id/restaurant_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:text="1.2 km away"
-                    android:textColor="@color/grey"
-                    android:textSize="14sp" />
+<!--                &lt;!&ndash; Distance &ndash;&gt;-->
+<!--                <TextView-->
+<!--                    android:id="@+id/restaurant_distance"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:text="1.2 km away"-->
+<!--                    android:textColor="@color/grey"-->
+<!--                    android:textSize="14sp" />-->
 
                 <!-- Cost (€ icons) -->
                 <LinearLayout

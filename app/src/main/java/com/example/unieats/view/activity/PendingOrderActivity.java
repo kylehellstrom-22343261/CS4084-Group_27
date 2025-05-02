@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
-import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
-
-import java.util.List;
 
 public class PendingOrderActivity extends AppCompatActivity {
 
