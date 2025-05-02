@@ -52,6 +52,7 @@ public class RestaurantFragment extends Fragment {
         });
 
         Button pendingOrderButton = view.findViewById(R.id.pending_order_button);
+        // TODO: Change method to get only user pending orders
         OrderController.getPendingOrders(orders -> {
             if (orders.isEmpty()) {
                 pendingOrderButton.setVisibility(View.GONE);
