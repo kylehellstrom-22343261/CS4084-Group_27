@@ -1,5 +1,6 @@
 package com.example.unieats.view.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unieats.R;
 import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -58,6 +62,37 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.orderTotalTextView.setText("Total: €" + String.format("%.2f", totalPrice));
         holder.orderTimeTextView.setText(order.getOrderTime().toString());
         holder.orderStatusTextView.setText(order.isPending() ? "Pending" : "Complete");
+
+        // Set button color
+        holder.markDoneButton.setBackgroundColor(Color.parseColor("#4CAF50")); // green
+        holder.markDoneButton.setTextColor(Color.WHITE);
+
+        // Button click logic
+        holder.markDoneButton.setOnClickListener(v -> {
+            FirebaseDatabase db = FirebaseDatabase.getInstance("https://unieats-57c3e-default-rtdb.europe-west1.firebasedatabase.app/");
+            DatabaseReference dbRef = db.getReference("Order/data");
+
+            dbRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                        Order o = snapshot.getValue(Order.class);
+                        if (o != null && o.getOrderNumber() == order.getOrderNumber()) {
+                            // Update Firebase order status to done (pending = false)
+                            snapshot.getRef().child("pending").setValue(false);
+
+                            // After successful Firebase update, remove from adapter list
+                            int currentPosition = holder.getAdapterPosition();
+                            if (currentPosition != RecyclerView.NO_POSITION) {
+                                orderList.remove(currentPosition);
+                                notifyItemRemoved(currentPosition);
+                                notifyItemRangeChanged(currentPosition, orderList.size());
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+        });
     }
 
     @Override

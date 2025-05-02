@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.unieats.R;
+import com.example.unieats.model.Menu;
 import com.example.unieats.model.Restaurant;
 import com.example.unieats.view.fragment.BusinessDashboardFragment;
 import com.example.unieats.view.fragment.RestaurantFragment;
@@ -64,6 +65,12 @@ public class BusinessActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        String email = (String) getIntent().getSerializableExtra("email");
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if (fragment instanceof BusinessDashboardFragment) {
+//            ((BusinessDashboardFragment) fragment).filterRestaurants(email);
+//        }
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new BusinessDashboardFragment())
