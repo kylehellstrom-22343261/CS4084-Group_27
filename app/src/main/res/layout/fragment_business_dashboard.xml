@@ -55,9 +55,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Orders"
+                    android:text="Total Completed\nOrders"
+
                     android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/totalOrders"
@@ -80,9 +81,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Revenue"
+                    android:text="Completed Orders\nRevenue"
                     android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/revenue"
@@ -98,7 +99,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recent Orders"
+            android:text="Pending Orders"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="24dp" />
