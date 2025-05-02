@@ -61,11 +61,11 @@ public class BusinessLoginActivity extends AppCompatActivity {
                     }
 
                     if (correctLogin.get()) {
-//                        Toast.makeText(this, "Login correct!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(BusinessLoginActivity.this, BusinessActivity.class);
                         intent.putExtra("email", email);
                         startActivity(intent);
                         finish();
+                        Toast.makeText(this, "Login correct!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
                     }

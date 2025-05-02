@@ -44,11 +44,10 @@ public class BusinessDashboardFragment extends Fragment {
         email = "stablesclub@ul.ie";
 
 //        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
-
         BusinessUserController businessUserController = new BusinessUserController();
 
         businessUserController.getBusinessUsers(email, businessUsers -> {
-            Toast.makeText(getContext(), businessUsers.get(0).getBusinessName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), businessUsers.get(0).getBusinessName(), Toast.LENGTH_SHORT).show();
 
             OrderController.getOrders(businessUsers.get(0).getBusinessName(), orders -> {
                 ArrayList<Order> pendingOrders = new ArrayList<>();
@@ -57,7 +56,7 @@ public class BusinessDashboardFragment extends Fragment {
                         pendingOrders.add(o);
                     }
                 }
-                Toast.makeText(getContext(), pendingOrders.get(0).getMenuItems().get(0).getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), pendingOrders.get(0).getMenuItems().get(0).getName(), Toast.LENGTH_SHORT).show();
                 OrderAdapter orderAdapter = new OrderAdapter(pendingOrders);
                 recentOrdersRecyclerView.setAdapter(orderAdapter);
             });

@@ -81,14 +81,19 @@
         <!-- Floating Heart Icon -->
         <TextView
             android:id="@+id/favourites_Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="top|end"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:text="\uf004"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textColor="@android:color/holo_red_dark"
             android:fontFamily="@font/fa_solid"
-            android:contentDescription="Favorite Icon" />
+            android:contentDescription="Favorite Icon"
+            android:clickable="true"
+            android:focusable="true" />
     </FrameLayout>
 </androidx.cardview.widget.CardView>

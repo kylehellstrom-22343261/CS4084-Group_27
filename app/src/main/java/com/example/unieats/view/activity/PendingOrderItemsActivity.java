@@ -1,6 +1,7 @@
 package com.example.unieats.view.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unieats.R;
 import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Menu;
+import com.example.unieats.model.Order;
 import com.example.unieats.view.adapter.PendingOrderAdapter;
 import com.example.unieats.view.adapter.PendingOrderItemsAdapter;
 
@@ -36,16 +38,31 @@ public class PendingOrderItemsActivity extends AppCompatActivity {
             finish();
         });
 
-        List<Menu.MenuItem> items = new ArrayList<>();
-        OrderController.getPendingOrders(orders -> {
-            items.addAll(orders.get(0).getMenuItems()); // Get MenuItem from Order
-        });
+        // Retrieve the passed extra order
+        List<Menu.MenuItem> items = (List<Menu.MenuItem>) getIntent().getSerializableExtra("menuItems");
+
         PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
         recyclerView.setAdapter(adapter);
 
 
-//        List<Menu.MenuItem> items = OrderController.getPendingOrders().get(0).getMenuItems(); // Get MenuItem from Order
-//        PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items);
-//        recyclerView.setAdapter(adapter);
+//        OrderController.getPendingOrders(orders -> {
+//            if (orders != null && !orders.isEmpty()) {
+//                // Loop through all orders and collect all MenuItems
+//                for (Order order : orders) {
+//                    items.addAll(order.getMenuItems());
+//                }
+//                items.addAll(orders.get(1).getMenuItems());
+//                Log.d("PendingOrderItemsActivity", "Number of order MenuItems: " + orders.size());
+//                Log.d("PendingOrderItemsActivity", "Number of items: " + items.size());
+//
+//                // Notify the adapter that data has been updated
+//                PendingOrderItemsAdapter adapter = new PendingOrderItemsAdapter(this, items, orders.size());
+//                recyclerView.setAdapter(adapter);
+//            } else {
+//                // Handle the case when there are no orders
+//                Log.d("PendingOrderItemsActivity", "No orders found or the list is empty.");
+//            }
+//        });
+
     }
 }

@@ -14,6 +14,7 @@ import com.example.unieats.R;
 import com.example.unieats.controller.BasketController;
 import com.example.unieats.model.Menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderConfirmedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -26,10 +27,16 @@ public class OrderConfirmedAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final Context context;
 
     public OrderConfirmedAdapter(List<Menu.MenuItem> basketItems, Context context) {
-        this.basketItems = basketItems;
         this.context = context;
-        Log.d("OrderConfirmedAdapter", "count: " + BasketController.getInstance().getBasketItems().size());
-    }
+        this.basketItems = new ArrayList<>();
+
+        for (Menu.MenuItem item : basketItems) {
+            if (item.getCount() > 0) {
+                this.basketItems.add(item);
+            }
+        }
+
+        Log.d("OrderConfirmedAdapter", "Filtered count: " + this.basketItems.size());    }
 
     @Override
     public int getItemViewType(int position) {
