@@ -51,3 +51,7 @@ The Pavilion <br>
 The Terrace <br>
 &nbsp;&nbsp;&nbsp;&nbsp;Email: theterrace@ul.ie <br>
 &nbsp;&nbsp;&nbsp;&nbsp;Password: terrace123
+
+Eden <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Email: eden@ul.ie <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Password: eden123
