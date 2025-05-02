@@ -73,7 +73,7 @@ public class BusinessActivity extends AppCompatActivity {
 //        }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new BusinessDashboardFragment())
+                .replace(R.id.fragment_container, new BusinessDashboardFragment(email))
                 .commit();
 
         // Find the settings button by ID

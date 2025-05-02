@@ -30,7 +30,9 @@ public class BusinessDashboardFragment extends Fragment {
 
     private String email;
 
-    public BusinessDashboardFragment() { }
+    public BusinessDashboardFragment(String email) {
+        this.email = email;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class BusinessDashboardFragment extends Fragment {
 
         orderList = new ArrayList<>();
 
-        email = "stablesclub@ul.ie";
+//        email = "stablesclub@ul.ie";
 
 //        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
         BusinessUserController businessUserController = new BusinessUserController();
