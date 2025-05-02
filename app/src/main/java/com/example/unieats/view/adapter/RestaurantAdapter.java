@@ -74,7 +74,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Restaurant restaurant = restaurantList.get(position - 1); // offset by 1
             RestaurantViewHolder vh = (RestaurantViewHolder) holder;
 
-            FavouritesController favouritesController = new FavouritesController();
+//            FavouritesController favouritesController = new FavouritesController();
 
             vh.name.setText(restaurant.getBusinessName());
             vh.description.setText(restaurant.getDescription());

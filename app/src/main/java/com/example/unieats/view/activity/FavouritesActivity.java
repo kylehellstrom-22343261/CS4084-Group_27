@@ -21,6 +21,8 @@ import com.example.unieats.view.fragment.MenuFragment;
 
 public class FavouritesActivity extends AppCompatActivity {
 
+    private FavouritesAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,11 @@ public class FavouritesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Context context = getApplicationContext();
+        FavouritesController.getFavourites(context, restaurants -> {
+            adapter = new FavouritesAdapter(restaurants);
+            RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
+            recyclerView.setAdapter(adapter);
+        });
     }
 }
