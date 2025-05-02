@@ -122,10 +122,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onRestaurantClick(Restaurant restaurant);
     }
 
-    public void updateData(List<Restaurant> newList) {
-        this.restaurantList = newList;
-        notifyDataSetChanged(); // Refresh the RecyclerView
-
+    public void updateData(List<Restaurant> newRestaurants) {
+        restaurantList.clear();
+        restaurantList.addAll(newRestaurants);
+        restaurantList.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
+        notifyDataSetChanged();
     }
 
 

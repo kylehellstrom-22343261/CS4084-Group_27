@@ -1,23 +1,19 @@
 package com.example.unieats.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
 import com.example.unieats.controller.FavouritesController;
-import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.view.adapter.FavouritesAdapter;
-import com.example.unieats.view.adapter.RestaurantAdapter;
-import com.example.unieats.view.fragment.MenuFragment;
+
+import java.util.ArrayList;
 
 public class FavouritesActivity extends AppCompatActivity {
 
@@ -30,17 +26,22 @@ public class FavouritesActivity extends AppCompatActivity {
         Context context = getApplicationContext();
 
         RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        FavouritesController.getFavourites(context, restaurants -> {
-            FavouritesAdapter adapter = new FavouritesAdapter(restaurants);
-
-            recyclerView.setAdapter(adapter);
+        adapter = new FavouritesAdapter(new ArrayList<>(), restaurant -> {
+            Intent intent = new Intent(FavouritesActivity.this, MainActivity.class);
+            intent.putExtra("restaurant_name", restaurant.getBusinessName());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
+        recyclerView.setAdapter(adapter);
+
+        FavouritesController.getFavourites(context, restaurants -> adapter.updateData(restaurants));
 
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
+
     }
 
     @Override
@@ -48,9 +49,10 @@ public class FavouritesActivity extends AppCompatActivity {
         super.onResume();
         Context context = getApplicationContext();
         FavouritesController.getFavourites(context, restaurants -> {
-            adapter = new FavouritesAdapter(restaurants);
-            RecyclerView recyclerView = findViewById(R.id.favourites_recycler_view);
-            recyclerView.setAdapter(adapter);
+            if (adapter != null) {
+                adapter.updateData(restaurants);
+            }
         });
     }
+
 }

@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.unieats.R;
 import com.example.unieats.model.Restaurant;
+import com.example.unieats.view.fragment.MenuFragment;
 import com.example.unieats.view.fragment.RestaurantFragment;
 
 import org.osmdroid.config.Configuration;
@@ -61,6 +62,22 @@ public class MainActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
         setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            // Add the home fragment first only if this is the first creation
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new RestaurantFragment())
+                    .commit();
+        }
+        String restaurantName = getIntent().getStringExtra("restaurant_name");
+        if (restaurantName != null) {
+            MenuFragment menuFragment = MenuFragment.newInstance(restaurantName);
+
+            // Add MenuFragment on top of RestaurantFragment, add to back stack
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, menuFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragment_container), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -104,12 +121,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-
-
-        // Change Fragment
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new RestaurantFragment())
-                .commit();
 
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
