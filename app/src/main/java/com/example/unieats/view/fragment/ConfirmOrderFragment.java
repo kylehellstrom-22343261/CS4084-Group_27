@@ -86,7 +86,7 @@ public class ConfirmOrderFragment extends Fragment implements ConfirmOrderAdapte
                     .commit();
 
             // Handle placing the order
-            orderController.makeOrder(new Order(basketItems, true));
+            orderController.makeOrder(getContext(), new Order(basketItems, true));
         });
 
         return view;

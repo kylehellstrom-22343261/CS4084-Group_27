@@ -16,7 +16,9 @@ import com.example.unieats.R;
 import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class PendingOrderItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Menu.MenuItem> items;
@@ -45,7 +47,7 @@ public class PendingOrderItemsAdapter extends RecyclerView.Adapter<RecyclerView.
             PendingOrderItemsViewHolder vh = (PendingOrderItemsViewHolder) holder;
             vh.itemName.setText(allItems.getName());
             vh.itemQuantity.setText(String.valueOf(allItems.getCount()));
-            vh.itemPrice.setText(String.valueOf(allItems.getPrice()));
+            vh.itemPrice.setText("€" + String.format("%.2f", allItems.getPrice()));
         }
     }
 
