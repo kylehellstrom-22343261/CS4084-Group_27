@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unieats.R;
 import com.example.unieats.controller.BasketController;
 import com.example.unieats.controller.MenuController;
+import com.example.unieats.controller.RestaurantController;
 import com.example.unieats.model.Menu;
+import com.example.unieats.model.Restaurant;
 import com.example.unieats.view.adapter.MenuAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -60,7 +62,19 @@ public class MenuFragment extends Fragment implements MenuAdapter.BasketUpdateLi
 
         AppBarLayout appBarLayout = view.findViewById(R.id.fragment_appbar);
         menuHeaderImage = view.findViewById(R.id.menu_header_image);
-        menuHeaderImage.setImageResource(R.drawable.stables_club); // TODO: dynamic image
+        RestaurantController.getRestaurants(restaurants -> {
+            for (Restaurant restaurant : restaurants) {
+                if (restaurant.getBusinessName().equalsIgnoreCase(businessName)) {
+                    menuHeaderImage.setImageResource(
+                            getContext().getResources().getIdentifier(
+                                    restaurant.getImage(), "drawable", getContext().getPackageName()
+                            )
+                    );
+                    break;
+                }
+            }
+        });
+
 
         appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
             int totalScrollRange = appBarLayout1.getTotalScrollRange();
