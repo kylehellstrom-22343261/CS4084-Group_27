@@ -24,7 +24,6 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private final List<Order> orderList;
-    private final List<Order> completedOrderList = new ArrayList<>();
     private final OnOrderStatusUpdatedListener orderStatusUpdatedListener;
 
     public interface OnOrderStatusUpdatedListener {
@@ -99,11 +98,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
                             // Fetch updated orders after marking as done
                             OrderController.getOrders(order.getBusinessName(), orders -> {
-                                completedOrderList.clear(); // Clear the previous list
-                                completedOrderList.addAll(orders); // Add the updated orders
                                 // Notify the listener to update the UI
                                 if (orderStatusUpdatedListener != null) {
-                                    orderStatusUpdatedListener.onOrderStatusUpdated(completedOrderList);
+                                    orderStatusUpdatedListener.onOrderStatusUpdated(orders);
                                 }
                             });
 
@@ -135,4 +132,3 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
     }
 }
-
