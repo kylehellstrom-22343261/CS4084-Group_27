@@ -11,20 +11,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unieats.R;
+import com.example.unieats.controller.OrderController;
 import com.example.unieats.model.Menu;
 import com.example.unieats.model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private final List<Order> orderList;
+    private final List<Order> completedOrderList = new ArrayList<>();
+    private final OnOrderStatusUpdatedListener orderStatusUpdatedListener;
 
-    public OrderAdapter(List<Order> orderList) {
+    public interface OnOrderStatusUpdatedListener {
+        void onOrderStatusUpdated(List<Order> updatedOrders);
+    }
+
+    public OrderAdapter(List<Order> orderList, OnOrderStatusUpdatedListener listener) {
         this.orderList = orderList;
+        this.orderStatusUpdatedListener = listener;
     }
 
     @NonNull
@@ -60,7 +69,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         holder.orderDetailsTextView.setText(details.toString().trim());
         holder.orderTotalTextView.setText("Total: €" + String.format("%.2f", totalPrice));
-        holder.orderTimeTextView.setText(order.getOrderTime().toString());
+        holder.orderTimeTextView.setText(order.getOrderTime());
         holder.orderStatusTextView.setText(order.isPending() ? "Pending" : "Complete");
 
         // Set button color
@@ -87,6 +96,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                                 notifyItemRemoved(currentPosition);
                                 notifyItemRangeChanged(currentPosition, orderList.size());
                             }
+
+                            // Fetch updated orders after marking as done
+                            OrderController.getOrders(order.getBusinessName(), orders -> {
+                                completedOrderList.clear(); // Clear the previous list
+                                completedOrderList.addAll(orders); // Add the updated orders
+                                // Notify the listener to update the UI
+                                if (orderStatusUpdatedListener != null) {
+                                    orderStatusUpdatedListener.onOrderStatusUpdated(completedOrderList);
+                                }
+                            });
+
                             break;
                         }
                     }
@@ -115,3 +135,4 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
     }
 }
+
