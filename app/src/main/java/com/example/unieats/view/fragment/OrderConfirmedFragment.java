@@ -30,7 +30,7 @@ public class OrderConfirmedFragment extends Fragment {
 
     public OrderConfirmedFragment(List<Menu.MenuItem> basketItems, double totalAmount) {
         this.basketItems = basketItems;
-        this.totalAmount =totalAmount;
+        this.totalAmount = totalAmount;
     }
 
     @Nullable
@@ -55,6 +55,7 @@ public class OrderConfirmedFragment extends Fragment {
 
         Button finishOrder = view.findViewById(R.id.return_home_button);
         finishOrder.setOnClickListener(v -> {
+            basketItems.clear();
             BasketController.getInstance().clearBasket();
             Intent intent = new Intent(getActivity(), MainActivity.class); // replace HomeActivity with your home activity
             startActivity(intent);
