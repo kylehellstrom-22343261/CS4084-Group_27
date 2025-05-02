@@ -34,7 +34,7 @@ Businesses can log into their account and receive your order, which shows them:
 
 Once you arrive and pick up your food, they mark it as complete with the "Mark as Done" button. The business can also see how many orders have been placed and the revenue they have made through the app.
 
-## Business Account Logins:
+## Business Account Logins
 
 Scholars Club <br>
 &nbsp;&nbsp;&nbsp;&nbsp;Email: scholarsclub@ul.ie <br>
