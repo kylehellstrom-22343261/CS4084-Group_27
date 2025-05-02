@@ -77,13 +77,13 @@ public class BusinessActivity extends AppCompatActivity {
                 .commit();
 
         // Find the settings button by ID
-        Button settingsButton = findViewById(R.id.settingsButton);
+//        Button settingsButton = findViewById(R.id.settingsButton);
         // Set click listener for the settings button
-        settingsButton.setOnClickListener(v -> {
-            // Start the SettingsActivity
-            Intent intent = new Intent(BusinessActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        });
+//        settingsButton.setOnClickListener(v -> {
+//            // Start the SettingsActivity
+//            Intent intent = new Intent(BusinessActivity.this, SettingsActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     @Override
